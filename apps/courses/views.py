@@ -1,0 +1,27 @@
+
+from django.views.generic import ListView, DetailView
+from .models import Course, CourseCategory
+
+class CourseListView(ListView):
+    model = Course
+    template_name = 'courses/course_list.html'
+    context_object_name = 'courses'
+    paginate_by = 12
+
+    def get_queryset(self):
+        queryset = Course.objects.filter(is_published=True)
+        category = self.request.GET.get('category')
+        if category:
+            queryset = queryset.filter(category__slug=category)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = CourseCategory.objects.all()
+        return context
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'courses/course_detail.html'
+    context_object_name = 'course'
+    slug_field = 'slug'

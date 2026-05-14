@@ -1,0 +1,392 @@
+═════════════════════════════════════════════════════════════════════════════════
+                        EVREN ACADEMY DJANGO PROJECT
+                         Complete Installation Guide
+═════════════════════════════════════════════════════════════════════════════════
+
+📦 WHAT'S INCLUDED IN THIS PACKAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Complete Django Project
+✅ 11 Django Apps (core, courses, branches, blog, admissions, etc.)
+✅ 40+ Database Models
+✅ Django Admin CMS (fully configured)
+✅ 17+ HTML Templates (responsive)
+✅ Bootstrap 5 + Custom CSS
+✅ JavaScript (Swiper, AOS, animations)
+✅ All Static Assets
+✅ SEO Optimization (sitemap, robots.txt, meta tags)
+✅ Forms (contact, admission, career)
+✅ Testimonials system
+✅ Blog/News system
+✅ Multi-branch support
+✅ Gallery system
+✅ Team management
+✅ Complete Documentation
+
+═════════════════════════════════════════════════════════════════════════════════
+
+🚀 STEP-BY-STEP INSTALLATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IMPORTANT: Follow these steps EXACTLY in order.
+
+STEP 1: OPEN COMMAND PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Press Windows Key + R, type "cmd" and press Enter.
+
+Navigate to project directory:
+
+   cd "c:\Users\dell\Desktop\evern website"
+
+Verify you're in the right directory:
+
+   dir
+
+You should see files like:
+   • requirements.txt
+   • README.md
+   • COMPLETE_BUILD.py
+   • BUILD_TEMPLATES.py
+   • etc.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 2: CHECK PYTHON INSTALLATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python --version
+
+You should see: Python 3.13.x or higher
+
+If not, download Python from: https://www.python.org/downloads/
+
+IMPORTANT: During Python installation, check "Add Python to PATH"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 3: CREATE VIRTUAL ENVIRONMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python -m venv venv
+
+Wait for it to complete (may take 1-2 minutes).
+
+You should now see a new "venv" folder in your directory.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 4: ACTIVATE VIRTUAL ENVIRONMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   venv\Scripts\activate
+
+The command prompt should now show: (venv) at the beginning of the line.
+
+Example: (venv) c:\Users\dell\Desktop\evern website>
+
+If you don't see "(venv)", try:
+
+   venv\Scripts\activate.bat
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 5: UPGRADE PIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python -m pip install --upgrade pip
+
+This ensures you have the latest version of pip.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 6: INSTALL DEPENDENCIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   pip install -r requirements.txt
+
+This will install:
+   • Django 5.0+
+   • Pillow (image processing)
+   • django-ckeditor (text editor)
+   • WhiteNoise (static files)
+   • psycopg2 (PostgreSQL support)
+   • And more...
+
+Wait for installation to complete (may take 5-10 minutes depending on internet).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 7: GENERATE PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python COMPLETE_BUILD.py
+
+This script will:
+   ✓ Create all project folders
+   ✓ Generate all Django models
+   ✓ Create views for each app
+   ✓ Configure URLs
+   ✓ Setup admin configurations
+   ✓ Create all app files
+
+Wait for it to complete.
+
+You should see a message: "✅ PHASE 1 & 2 COMPLETE"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 8: CREATE DATABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python manage.py makemigrations
+
+Then type:
+
+   python manage.py migrate
+
+This will:
+   ✓ Create database tables
+   ✓ Setup Django auth system
+   ✓ Initialize all models
+
+You should see: "Running migrations: ... OK"
+
+A new file "db.sqlite3" will be created.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 9: CREATE ADMIN ACCOUNT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python manage.py createsuperuser
+
+You'll be asked:
+
+   Username: admin
+   Email: admin@example.com
+   Password: (enter a strong password)
+   Password (again): (confirm password)
+
+Note these credentials. You'll need them to login to admin panel.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 10: GENERATE TEMPLATES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python BUILD_TEMPLATES.py
+
+This will create:
+   ✓ All HTML templates
+   ✓ CSS stylesheets
+   ✓ JavaScript files
+   ✓ Static assets
+
+Wait for completion message.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 11: COLLECT STATIC FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python manage.py collectstatic --noinput
+
+This organizes all CSS, JavaScript, and image files for deployment.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 12: RUN DEVELOPMENT SERVER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Type:
+
+   python manage.py runserver
+
+You should see:
+
+   Starting development server at http://127.0.0.1:8000/
+   Quit the server with CTRL-BREAK.
+
+The server is now running! Don't close this command window.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 13: ACCESS YOUR WEBSITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Open your web browser and go to:
+
+   WEBSITE:  http://localhost:8000
+   ADMIN:    http://localhost:8000/admin
+
+You should see:
+   • Homepage with hero slider
+   • Navigation menu
+   • All sections
+
+To login to admin:
+   1. Go to http://localhost:8000/admin
+   2. Enter username: admin
+   3. Enter your password
+   4. Click "Sign In"
+
+═════════════════════════════════════════════════════════════════════════════════
+
+✅ INSTALLATION COMPLETE!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your Evren Academy website is now running!
+
+═════════════════════════════════════════════════════════════════════════════════
+
+📝 NEXT STEPS - CUSTOMIZE YOUR SITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. LOGIN TO ADMIN
+   Go to: http://localhost:8000/admin
+   Username: admin
+   Password: (what you created)
+
+2. CONFIGURE SITE SETTINGS
+   Core > Site Settings
+   • Upload your logo
+   • Set primary color (#0B5D3B)
+   • Enter phone number
+   • Add WhatsApp number
+   • Set your address
+
+3. ADD HERO SLIDES
+   Core > Hero Slides
+   • Add 3-4 hero slides
+   • Upload banner images
+   • Add call-to-action buttons
+
+4. ADD COURSES
+   Courses > Courses
+   • Create course categories first
+   • Add courses with descriptions
+   • Upload course images
+
+5. ADD BRANCHES
+   Branches > Branches
+   • Add your campus locations
+   • Upload branch photos
+   • Add contact information
+
+6. ADD TEAM MEMBERS
+   Core > Team Members
+   • Add faculty/staff
+   • Upload photos
+   • Add descriptions
+
+7. ADD TESTIMONIALS
+   Testimonials > Testimonials
+   • Add student/parent reviews
+   • Add ratings
+   • Upload photos (optional)
+
+8. START BLOGGING
+   Blog > Blog Posts
+   • Create blog categories first
+   • Write and publish articles
+   • Add featured images
+
+═════════════════════════════════════════════════════════════════════════════════
+
+🔧 USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+To STOP the server:
+   Press CTRL + C in command prompt
+
+To START the server again:
+   python manage.py runserver
+
+To use different port:
+   python manage.py runserver 8001
+
+To access interactive shell:
+   python manage.py shell
+
+To backup database:
+   python manage.py dumpdata > backup.json
+
+To create new superuser:
+   python manage.py createsuperuser
+
+═════════════════════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTATION FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In your project folder you'll find:
+
+   • README.md               - Full documentation
+   • SETUP_GUIDE.md          - Detailed setup and deployment
+   • QUICK_START.txt         - Quick reference guide
+   • PROJECT_SUMMARY.md      - Complete project overview
+
+Open them with any text editor for detailed information.
+
+═════════════════════════════════════════════════════════════════════════════════
+
+⚠️  IMPORTANT NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. KEEP VIRTUAL ENVIRONMENT ACTIVATED
+   Every time you want to work on the project, activate the virtual environment:
+   
+   venv\Scripts\activate
+
+2. ONLY FOR DEVELOPMENT
+   The current setup is for local development only.
+   For production deployment, follow SETUP_GUIDE.md
+
+3. DATABASE BACKUP
+   Your data is in db.sqlite3 file. Make regular backups!
+
+4. NEVER COMMIT SECRETS
+   Don't upload .env file or db.sqlite3 to git
+
+5. ENVIRONMENT VARIABLES
+   Edit .env file to customize settings (without changing code)
+
+═════════════════════════════════════════════════════════════════════════════════
+
+🎉 ENJOY YOUR NEW WEBSITE!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You now have a professional, fully-featured educational institution website!
+
+All the code is yours to customize. Use Django Admin to manage content without
+touching any code.
+
+For questions, refer to:
+   • Django Docs: https://docs.djangoproject.com/
+   • Bootstrap Docs: https://getbootstrap.com/
+   • Stack Overflow: https://stackoverflow.com/
+
+Happy coding! 🚀
+
+═════════════════════════════════════════════════════════════════════════════════

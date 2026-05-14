@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ object.name }} | Evren Academy{% endblock %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <p class="text-warning mb-2">
+                    {{ object.category.name }}
+                </p>
+                <h1 class="display-4 fw-bold mb-3">
+                    {{ object.name }}
+                </h1>
+                <p class="lead">
+                    {{ object.short_description }}
+                </p>
+
+                <a href="/contact/" class="btn btn-primary btn-lg mt-3">
+                    Apply Now
+                </a>
+            </div>
+
+            <div class="col-lg-6">
+                {% if object.image %}
+                <img src="{{ object.image.url }}"
+                     class="img-fluid rounded-4 shadow"
+                     alt="{{ object.name }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Course Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% if object.description %}
+                    {{ object.description|safe }}
+                {% else %}
+                    <p>Course details will be updated soon.</p>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body">
+                        <h4 class="mb-4">Course Information</h4>
+
+                        {% if object.duration %}
+                        <p><strong>Duration:</strong> {{ object.duration }}</p>
+                        {% endif %}
+
+                        {% if object.mode %}
+                        <p><strong>Mode:</strong> {{ object.mode }}</p>
+                        {% endif %}
+
+                        {% if object.eligibility %}
+                        <p><strong>Eligibility:</strong> {{ object.eligibility }}</p>
+                        {% endif %}
+
+                        <a href="/contact/" class="btn btn-primary w-100 mt-3">
+                            Enquire Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

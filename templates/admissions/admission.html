@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+
+{% block title %}Admissions - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-5">Admissions</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h2>Apply Now</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-control" name="phone" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Course of Interest</label>
+                    <input type="text" class="form-control" name="course">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control" name="message" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Admission Information</h2>
+            <h5>Admission Requirements</h5>
+            <ul>
+                <li>Valid educational qualifications</li>
+                <li>Completed application form</li>
+                <li>Entrance test (if applicable)</li>
+                <li>Interview</li>
+            </ul>
+
+            <h5 class="mt-4">Admission Timeline</h5>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h6>Application Submission</h6>
+                    <p class="text-muted">Open throughout the year</p>
+                </div>
+                <div class="timeline-item">
+                    <h6>Document Verification</h6>
+                    <p class="text-muted">Within 5 business days</p>
+                </div>
+                <div class="timeline-item">
+                    <h6>Entrance Exam</h6>
+                    <p class="text-muted">Scheduled based on applications</p>
+                </div>
+                <div class="timeline-item">
+                    <h6>Interview & Result</h6>
+                    <p class="text-muted">Within 2 weeks of exam</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

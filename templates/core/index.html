@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+
+<!-- ==========================================
+     HERO SLIDER
+========================================== -->
+<div class="hero-slider">
+    <div class="swiper heroSwiper">
+        <div class="swiper-wrapper">
+
+            {% for slide in hero_slides %}
+            <div class="swiper-slide">
+
+                <!-- Hero Media -->
+                {% if slide.video %}
+                    <video class="hero-video"
+                           autoplay
+                           muted
+                           loop
+                           playsinline
+                           preload="metadata">
+                        <source src="{{ slide.video.url }}" type="video/mp4">
+                    </video>
+
+                {% elif slide.video_url %}
+                    <video class="hero-video"
+                           autoplay
+                           muted
+                           loop
+                           playsinline
+                           preload="metadata">
+                        <source src="{{ slide.video_url }}" type="video/mp4">
+                    </video>
+
+                {% elif slide.image %}
+                    <img src="{{ slide.image.url }}"
+                         alt="{{ slide.title }}"
+                         class="hero-image">
+
+                {% else %}
+                    <img src="{% static 'images/default-hero.jpg' %}"
+                         alt="Evren Academy"
+                         class="hero-image">
+                {% endif %}
+
+                <!-- Overlay -->
+                <div class="hero-overlay"></div>
+
+                <!-- Hero Content -->
+                <div class="hero-content">
+                    {% if slide.label %}
+                    <span class="hero-label">{{ slide.label }}</span>
+                    {% endif %}
+
+                    <h1 class="display-4 fw-bold">
+                        {{ slide.title }}
+                    </h1>
+
+                    {% if slide.subtitle %}
+                    <p class="lead">
+                        {{ slide.subtitle }}
+                    </p>
+                    {% endif %}
+
+                    {% if slide.button_link %}
+                    <a href="{{ slide.button_link }}"
+                       class="btn btn-primary btn-lg mt-3">
+                        {{ slide.button_text|default:"Learn More" }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <!-- Fallback Slide -->
+            <div class="swiper-slide">
+                <img src="{% static 'images/default-hero.jpg' %}"
+                     alt="Evren Academy"
+                     class="hero-image">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-label">Welcome to</span>
+                    <h1 class="display-4 fw-bold">Evren Academy</h1>
+                    <p class="lead">Excellence in Education</p>
+                    <a href="{% url 'courses:list' %}"
+                       class="btn btn-primary btn-lg mt-3">
+                        Explore Courses
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Swiper Controls -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<!-- ==========================================
+     STATISTICS SECTION
+========================================== -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            {% for stat in statistics %}
+            <div class="col-md-3 col-6 mb-4" data-aos="fade-up">
+                <h3 class="counter">{{ stat.value }}</h3>
+                <p class="text-muted">{{ stat.label }} {{ stat.unit }}</p>
+            </div>
+            {% empty %}
+            <div class="col-md-3 col-6 mb-4">
+                <h3>10+</h3>
+                <p class="text-muted">Years of Excellence</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3>5000+</h3>
+                <p class="text-muted">Students</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3>50+</h3>
+                <p class="text-muted">Courses</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3>100%</h3>
+                <p class="text-muted">Support</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     FEATURED COURSES
+========================================== -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 data-aos="fade-up">Our Courses</h2>
+            <p class="text-muted">
+                Explore our most popular programs designed to help students excel.
+            </p>
+        </div>
+
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                <div class="card h-100 shadow-sm border-0">
+                    {% if course.image %}
+                    <img src="{{ course.image.url }}"
+                         class="card-img-top"
+                         alt="{{ course.name }}">
+                    {% else %}
+                    <img src="{% static 'images/default-course.jpg' %}"
+                         class="card-img-top"
+                         alt="{{ course.name }}">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <p class="card-text">
+                            {{ course.short_description|truncatewords:20 }}
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'courses:detail' course.slug %}"
+                           class="btn btn-outline-primary">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Courses will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if courses %}
+        <div class="text-center mt-4">
+            <a href="{% url 'courses:list' %}"
+               class="btn btn-primary">
+                View All Courses
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ==========================================
+     TEAM / FACULTY SECTION
+========================================== -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 data-aos="fade-up">Our Leadership</h2>
+            <p class="text-muted">
+                Meet the dedicated educators and mentors guiding our students.
+            </p>
+
+            <!-- Debug (remove later) -->
+            <!-- <p>Total Team Members: {{ team_members|length }}</p> -->
+        </div>
+
+        <div class="row">
+            {% for member in team_members %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+
+                    {% if member.image %}
+                    <img src="{{ member.image.url }}"
+                         class="rounded-circle mx-auto mb-3"
+                         width="180"
+                         height="180"
+                         alt="{{ member.name }}"
+                         style="object-fit: cover;">
+                    {% else %}
+                    <img src="{% static 'images/default-user.png' %}"
+                         class="rounded-circle mx-auto mb-3"
+                         width="180"
+                         height="180"
+                         alt="{{ member.name }}"
+                         style="object-fit: cover;">
+                    {% endif %}
+
+                    <h5 class="mb-1">{{ member.name }}</h5>
+                    <p class="text-primary fw-semibold">{{ member.title }}</p>
+
+                    {% if member.bio %}
+                    <p class="text-muted small">
+                        {{ member.bio|striptags|truncatewords:20 }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Team members will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

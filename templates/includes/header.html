@@ -1,0 +1,44 @@
+
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'core:home' %}">
+            {% if site_settings.logo %}
+            <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" height="50">
+            {% else %}
+            <strong>{{ site_settings.site_name }}</strong>
+            {% endif %}
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:home' %}#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'courses:list' %}">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'branches:list' %}">Branches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:list' %}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact:list' %}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary text-white ms-2" href="{% url 'admissions:list' %}">
+                        Apply Now
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
