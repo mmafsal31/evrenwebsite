@@ -23,7 +23,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,.onrender.com, afsalmm7.pythonanywhere.com',
+    default='127.0.0.1,localhost,afsalmm7.pythonanywhere.com',
     cast=Csv()
 )
 
