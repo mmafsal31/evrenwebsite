@@ -28,10 +28,11 @@ ALLOWED_HOSTS = config(
 )
 
 # =========================================================
-# APPLICATIONS
+# INSTALLED APPS
 # =========================================================
 INSTALLED_APPS = [
     'jazzmin',
+
     # Third-party apps
     'cloudinary',
     'cloudinary_storage',
@@ -66,6 +67,9 @@ INSTALLED_APPS = [
 # =========================================================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # WhiteNoise is useful on Render.
+    # PythonAnywhere ignores it, but it won't hurt.
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -107,32 +111,31 @@ TEMPLATES = [
 # =========================================================
 # DATABASE
 # =========================================================
+DATABASE_URL = config('DATABASE_URL', default='').strip()
 
-
-DATABASE_URL = config("DATABASE_URL", default="").strip()
-
-if DATABASE_URL and DATABASE_URL != "://":
-    if DATABASE_URL.startswith("postgres://"):
+if DATABASE_URL and DATABASE_URL != '://':
+    if DATABASE_URL.startswith('postgres://'):
         DATABASE_URL = DATABASE_URL.replace(
-            "postgres://",
-            "postgresql://",
+            'postgres://',
+            'postgresql://',
             1
         )
 
     DATABASES = {
-        "default": dj_database_url.parse(
+        'default': dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=600,
-            ssl_require=True,
+            ssl_require=not DEBUG,
         )
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 # =========================================================
 # PASSWORD VALIDATION
 # =========================================================
@@ -163,24 +166,33 @@ USE_TZ = True
 # STATIC FILES
 # =========================================================
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# IMPORTANT:
+# Use default storage so collectstatic works properly on PythonAnywhere.
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-WHITENOISE_COMPRESSION_QUALITY = 80
-WHITENOISE_KEEP_ONLY_LATEST_FILES = True
 
 # =========================================================
 # MEDIA FILES
 # =========================================================
-# Local media in development
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Use Cloudinary in production if configured
-if config('USE_CLOUDINARY', default=False, cast=bool):
+# =========================================================
+# CLOUDINARY (OPTIONAL)
+# =========================================================
+USE_CLOUDINARY = config(
+    'USE_CLOUDINARY',
+    default=False,
+    cast=bool
+)
+
+if USE_CLOUDINARY:
     DEFAULT_FILE_STORAGE = (
         'cloudinary_storage.storage.MediaCloudinaryStorage'
     )
@@ -222,6 +234,7 @@ EMAIL_BACKEND = config(
 # SITE SETTINGS
 # =========================================================
 SITE_NAME = 'Evren Academy'
+
 SITE_URL = config(
     'SITE_URL',
     default='http://127.0.0.1:8000'
@@ -229,12 +242,12 @@ SITE_URL = config(
 
 WHATSAPP_NUMBER = config(
     'WHATSAPP_NUMBER',
-    default='+91XXXXXXXXXX'
+    default='+917593077179'
 )
 
 PHONE_NUMBER = config(
     'PHONE_NUMBER',
-    default='+91XXXXXXXXXX'
+    default='+917593077179'
 )
 
 # =========================================================
@@ -242,15 +255,13 @@ PHONE_NUMBER = config(
 # =========================================================
 CACHES = {
     'default': {
-        'BACKEND': (
-            'django.core.cache.backends.locmem.LocMemCache'
-        ),
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'TIMEOUT': 300,
     }
 }
 
 # =========================================================
-# SECURITY SETTINGS
+# SECURITY
 # =========================================================
 SESSION_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_HTTPONLY = True
@@ -259,17 +270,15 @@ CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = True
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
-SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # =========================================================
-# HTTPS SETTINGS FOR PRODUCTION
+# PRODUCTION HTTPS SETTINGS
 # =========================================================
 if not DEBUG:
     SECURE_SSL_REDIRECT = config(
         'SECURE_SSL_REDIRECT',
-        default=True,
+        default=False,
         cast=bool
     )
 
@@ -279,10 +288,13 @@ if not DEBUG:
     )
 
 # =========================================================
-# DEFAULT PRIMARY KEY FIELD TYPE
+# DEFAULT PRIMARY KEY
 # =========================================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# =========================================================
+# JAZZMIN ADMIN SETTINGS
+# =========================================================
 JAZZMIN_SETTINGS = {
     "site_title": "Evren Academy Admin",
     "site_header": "Evren Academy",
