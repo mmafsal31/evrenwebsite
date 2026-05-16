@@ -31,6 +31,7 @@ ALLOWED_HOSTS = config(
 # APPLICATIONS
 # =========================================================
 INSTALLED_APPS = [
+    'jazzmin',
     # Third-party apps
     'cloudinary',
     'cloudinary_storage',
@@ -281,3 +282,13 @@ if not DEBUG:
 # DEFAULT PRIMARY KEY FIELD TYPE
 # =========================================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Evren Academy Admin",
+    "site_header": "Evren Academy",
+    "site_brand": "Evren Academy",
+    "welcome_sign": "Welcome to Evren Academy Admin Panel",
+    "copyright": "Evren Academy",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+}
