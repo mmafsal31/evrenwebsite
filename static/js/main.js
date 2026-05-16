@@ -1,108 +1,181 @@
+// ==========================================
+// EVREN ACADEMY - MAIN JAVASCRIPT
+// ==========================================
 
-// Initialize Swiper
-const heroSwiper = new Swiper('.hero-slider .swiper', {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-});
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('✓ Evren Academy site initialized');
 
-// Initialize AOS (Animate On Scroll)
-AOS.init({
-    duration: 1000,
-    once: false,
-});
+    // ==========================================
+    // HERO SWIPER
+    // ==========================================
+    if (typeof Swiper !== 'undefined' && document.querySelector('.hero-slider .swiper')) {
+        new Swiper('.hero-slider .swiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            speed: 1000,
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true,
+            },
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    }
 
-// Counter Animation
-function animateCounter() {
-    const counters = document.querySelectorAll('.counter');
-    counters.forEach(counter => {
-        const target = parseInt(counter.textContent);
-        const increment = target / 100;
+    // ==========================================
+    // AOS ANIMATION
+    // ==========================================
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 50,
+        });
+    }
+
+    // ==========================================
+    // COUNTER ANIMATION
+    // ==========================================
+    function animateCounter(counter) {
+        const rawValue = counter.textContent.replace(/[^\d]/g, '');
+        const target = parseInt(rawValue, 10);
+
+        if (isNaN(target)) return;
+
+        const suffix = counter.textContent.replace(/[\d]/g, '');
         let current = 0;
+        const increment = Math.max(target / 100, 1);
 
-        const updateCount = () => {
+        function update() {
             current += increment;
+
             if (current < target) {
-                counter.textContent = Math.floor(current) + '+';
-                setTimeout(updateCount, 20);
+                counter.textContent = Math.floor(current) + suffix;
+                requestAnimationFrame(update);
             } else {
-                counter.textContent = target + '+';
+                counter.textContent = target + suffix;
             }
-        };
+        }
 
-        updateCount();
-    });
-}
+        update();
+    }
 
-// Trigger counter animation when visible
-window.addEventListener('load', () => {
-    const counterSection = document.querySelector('.counter');
-    if (counterSection) {
-        const observer = new IntersectionObserver((entries) => {
+    const counters = document.querySelectorAll('.counter');
+
+    if ('IntersectionObserver' in window && counters.length > 0) {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    animateCounter();
-                    observer.unobserve(entry.target);
+                    animateCounter(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5,
+        });
+
+        counters.forEach(counter => observer.observe(counter));
+    }
+
+    // ==========================================
+    // SMOOTH SCROLLING
+    // ==========================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+
+            if (!href || href === '#') return;
+
+            const target = document.querySelector(href);
+
+            if (target) {
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        });
+    });
+
+    // ==========================================
+    // MOBILE NAVBAR AUTO CLOSE
+    // ==========================================
+    document.addEventListener('click', function (e) {
+        const toggler = document.querySelector('.navbar-toggler');
+        const collapse = document.querySelector('.navbar-collapse');
+
+        if (!toggler || !collapse) return;
+
+        const clickedOutside =
+            !toggler.contains(e.target) &&
+            !collapse.contains(e.target);
+
+        if (clickedOutside && collapse.classList.contains('show')) {
+            toggler.click();
+        }
+    });
+
+    // ==========================================
+    // FORM SUBMIT LOG
+    // ==========================================
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function () {
+            console.log('Form submitted');
+        });
+    });
+
+    // ==========================================
+    // LAZY LOAD IMAGES
+    // ==========================================
+    if ('IntersectionObserver' in window) {
+        const lazyImages = document.querySelectorAll('img[data-src]');
+
+        const imageObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+
+                    img.src = img.dataset.src;
+
+                    img.onload = function () {
+                        img.removeAttribute('data-src');
+                    };
+
+                    obs.unobserve(img);
                 }
             });
         });
-        observer.observe(counterSection);
+
+        lazyImages.forEach(img => imageObserver.observe(img));
     }
-});
 
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-});
+    // ==========================================
+    // STICKY HEADER SHADOW
+    // ==========================================
+    const navbar = document.querySelector('.navbar');
 
-// Navbar toggler
-document.addEventListener('click', function (e) {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbar = document.querySelector('.navbar-collapse');
-
-    if (navbarToggler && navbar && !navbarToggler.contains(e.target) && !navbar.contains(e.target)) {
-        if (navbar.classList.contains('show')) {
-            navbarToggler.click();
-        }
-    }
-});
-
-// Form handling
-document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', function (e) {
-        console.log('Form submitted');
-    });
-});
-
-// Lazy loading images
-if ('IntersectionObserver' in window) {
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.src = entry.target.dataset.src;
-                observer.unobserve(entry.target);
+    if (navbar) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-sm');
             }
         });
-    });
-    images.forEach(img => imageObserver.observe(img));
-}
-
-console.log('✓ Evren Academy site initialized');
+    }
+});
