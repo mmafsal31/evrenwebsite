@@ -175,8 +175,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # IMPORTANT:
 # Use default storage so collectstatic works properly on PythonAnywhere.
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 # =========================================================
 # MEDIA FILES
 # =========================================================
