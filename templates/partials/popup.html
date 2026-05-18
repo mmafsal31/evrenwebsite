@@ -1,0 +1,31 @@
+{% include 'includes/admission_popup.html' %}
+
+{% if active_popup %}
+<div class="site-popup"
+     id="sitePopup"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="sitePopupTitle"
+     data-once="{{ active_popup.show_once_per_session|yesno:'true,false' }}">
+    <div class="site-popup__dialog">
+        <button class="site-popup__close" type="button" aria-label="Close popup">
+            <i class="fas fa-times"></i>
+        </button>
+        {% if active_popup.image %}
+        <img src="{{ active_popup.image.url }}" class="site-popup__media" alt="{{ active_popup.title }}" loading="lazy">
+        {% endif %}
+        <div class="site-popup__body">
+            <span class="section-subtitle">Announcement</span>
+            <h2 id="sitePopupTitle">{{ active_popup.title }}</h2>
+            {% if active_popup.description %}
+            <div class="mb-3">{{ active_popup.description|safe }}</div>
+            {% endif %}
+            {% if active_popup.button_url %}
+            <a href="{{ active_popup.button_url }}" class="btn btn-primary">
+                {{ active_popup.button_text|default:"Learn More" }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}

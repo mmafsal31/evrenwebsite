@@ -1,0 +1,97 @@
+@media (max-width: 1199px) {
+    .navbar-collapse {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        margin-top: 14px;
+        padding: 12px;
+    }
+
+    .navbar-nav .nav-link {
+        margin: 2px 0;
+        padding: 11px 12px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    section {
+        padding: 76px 0;
+    }
+
+    .hero-content {
+        margin-left: 4vw;
+        max-width: 86%;
+    }
+
+    .course-meta-card {
+        position: static;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --header-height: 74px;
+    }
+
+    section {
+        padding: 62px 0;
+    }
+
+    .hero-slider .swiper,
+    .hero-slider .swiper-slide {
+        aspect-ratio: auto;
+        min-height: 560px;
+    }
+
+    .hero-content {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 0 24px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.1rem, 10vw, 3.3rem);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none;
+    }
+
+    .whatsapp-btn,
+    .call-btn,
+    .back-to-top {
+        height: 52px;
+        right: 14px;
+        width: 52px;
+    }
+
+    .call-btn {
+        bottom: 18px;
+    }
+
+    .whatsapp-btn {
+        bottom: 82px;
+    }
+
+    .back-to-top {
+        bottom: 146px;
+    }
+
+    .site-popup__body {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 12px 22px;
+        width: 100%;
+    }
+
+    .hero-label {
+        font-size: 0.68rem;
+    }
+}

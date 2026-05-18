@@ -1,0 +1,64 @@
+[data-aos] {
+    pointer-events: auto;
+}
+
+.animate-fade-up {
+    animation: fadeUp 700ms ease both;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 650ms ease both;
+}
+
+.swiper-slide-active .hero-label,
+.swiper-slide-active .hero-content h1,
+.swiper-slide-active .hero-content .lead,
+.swiper-slide-active .hero-richtext,
+.swiper-slide-active .hero-content .btn {
+    animation: fadeUp 850ms ease both;
+}
+
+.swiper-slide-active .hero-content h1 {
+    animation-delay: 100ms;
+}
+
+.swiper-slide-active .hero-content .lead,
+.swiper-slide-active .hero-richtext {
+    animation-delay: 220ms;
+}
+
+.swiper-slide-active .hero-content .btn {
+    animation-delay: 360ms;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

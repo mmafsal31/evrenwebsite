@@ -4,260 +4,112 @@
 {% block title %}Home - {{ site_settings.site_name }}{% endblock %}
 
 {% block content %}
+{% include "partials/hero.html" %}
 
-
-
-<!-- ==========================================
-     HERO SLIDER
-========================================== -->
-<div class="hero-slider"
-     data-autoplay="{{ site_settings.hero_autoplay_ms|default:5500 }}"
-     data-speed="{{ site_settings.hero_transition_ms|default:1400 }}"
-     data-media-fit="{{ site_settings.hero_media_fit|default:'cover' }}">
-    <div class="swiper heroSwiper">
-        <div class="swiper-wrapper">
-
-            {% for slide in hero_slides %}
-            <div class="swiper-slide">
-
-                <!-- Hero Media -->
-                {% if slide.video %}
-                    <video class="hero-video"
-                           autoplay
-                           muted
-                           loop
-                           playsinline
-                           preload="auto">
-                        <source src="{{ slide.video.url }}" type="video/mp4">
-                    </video>
-
-                {% elif slide.video_url %}
-                    <video class="hero-video"
-                           autoplay
-                           muted
-                           loop
-                           playsinline
-                           preload="auto">
-                        <source src="{{ slide.video_url }}" type="video/mp4">
-                    </video>
-
-                {% elif slide.image %}
-                    <img src="{{ slide.image.url }}"
-                         alt="{{ slide.title }}"
-                         class="hero-image"
-                         loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                         fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
-                         decoding="async">
-
-                {% else %}
-                    <img src="{% static 'images/default-hero.jpg' %}"
-                         alt="Evren Academy"
-                         class="hero-image">
-                {% endif %}
-
-                <!-- Overlay -->
-                <div class="hero-overlay"></div>
-
-                <!-- Hero Content -->
-                <div class="hero-content">
-                    {% if slide.label %}
-                    <span class="hero-label">{{ slide.label }}</span>
-                    {% endif %}
-
-                    <h1 class="display-4 fw-bold">
-                        {{ slide.title }}
-                    </h1>
-
-                    {% if slide.subtitle %}
-                    <p class="lead">
-                        {{ slide.subtitle }}
-                    </p>
-                    {% endif %}
-
-                    {% if slide.content %}
-                    <div class="hero-richtext">
-                        {{ slide.content|safe }}
-                    </div>
-                    {% endif %}
-
-                    {% if slide.button_link %}
-                    <a href="{{ slide.button_link }}"
-                       class="btn btn-primary btn-lg mt-3">
-                        {{ slide.button_text|default:"Learn More" }}
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            {% empty %}
-            <!-- Fallback Slide -->
-            <div class="swiper-slide">
-                <img src="{% static 'images/default-hero.jpg' %}"
-                     alt="Evren Academy"
-                     class="hero-image">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <span class="hero-label">Welcome to</span>
-                    <h1 class="display-4 fw-bold">Evren Academy</h1>
-                    <p class="lead">Excellence in Education</p>
-                    <a href="{% url 'courses:list' %}"
-                       class="btn btn-primary btn-lg mt-3">
-                        Explore Courses
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <!-- Swiper Controls -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-pagination"></div>
-    </div>
-</div>
-
-<!-- ==========================================
-     STATISTICS SECTION
-========================================== -->
 <section class="py-5 bg-light">
     <div class="container">
-        <div class="row text-center">
+        <div class="row g-4 text-center">
             {% for stat in statistics %}
-            <div class="col-md-3 col-6 mb-4" data-aos="fade-up">
-                <h3 class="counter">{{ stat.value }}</h3>
-                <p class="text-muted">{{ stat.label }} {{ stat.unit }}</p>
+            <div class="col-md-3 col-6" data-aos="fade-up">
+                <div class="premium-card p-4 h-100">
+                    <h3 class="counter">{{ stat.value }}</h3>
+                    <p class="text-muted mb-0">{{ stat.label }} {{ stat.unit }}</p>
+                </div>
             </div>
             {% empty %}
-            <div class="col-md-3 col-6 mb-4">
-                <h3>10+</h3>
-                <p class="text-muted">Years of Excellence</p>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <h3>5000+</h3>
-                <p class="text-muted">Students</p>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <h3>50+</h3>
-                <p class="text-muted">Courses</p>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <h3>100%</h3>
-                <p class="text-muted">Support</p>
-            </div>
+            <div class="col-md-3 col-6"><div class="premium-card p-4"><h3 class="counter">10+</h3><p class="text-muted mb-0">Years of Excellence</p></div></div>
+            <div class="col-md-3 col-6"><div class="premium-card p-4"><h3 class="counter">5000+</h3><p class="text-muted mb-0">Students</p></div></div>
+            <div class="col-md-3 col-6"><div class="premium-card p-4"><h3 class="counter">50+</h3><p class="text-muted mb-0">Courses</p></div></div>
+            <div class="col-md-3 col-6"><div class="premium-card p-4"><h3 class="counter">100%</h3><p class="text-muted mb-0">Support</p></div></div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- ==========================================
-     ABOUT PREVIEW
-========================================== -->
-<section class="py-5">
+<section>
     <div class="container">
         <div class="row g-5 align-items-center">
-            <div class="col-lg-7">
-                <span class="section-subtitle">About Us</span>
-                <h2>Evren Academy</h2>
+            <div class="col-lg-6" data-aos="fade-right">
+                <span class="section-subtitle">About Evren Academy</span>
+                <h2>Focused education with modern mentoring.</h2>
                 {% if institution_profile.intro %}
-                    {{ institution_profile.intro|safe|truncatewords_html:60 }}
+                    {{ institution_profile.intro|safe|truncatewords_html:70 }}
                 {% else %}
                     <p>Evren Academy provides focused academic guidance, structured preparation, and a disciplined learning environment for students.</p>
                 {% endif %}
+                <a href="{% url 'core:about' %}" class="btn btn-outline-primary mt-3">Read About Us</a>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-6" data-aos="fade-left">
                 <div class="info-list">
                     <div>
                         <i class="fas fa-bullseye"></i>
                         <h3>Mission</h3>
-                        {% if institution_profile.mission %}{{ institution_profile.mission|safe|truncatewords_html:24 }}{% else %}<p>Strong foundations, personal guidance, and confident academic growth.</p>{% endif %}
+                        {% if institution_profile.mission %}{{ institution_profile.mission|safe|truncatewords_html:26 }}{% else %}<p>Strong foundations, personal guidance, and confident academic growth.</p>{% endif %}
                     </div>
                     <div>
                         <i class="fas fa-eye"></i>
                         <h3>Vision</h3>
-                        {% if institution_profile.vision %}{{ institution_profile.vision|safe|truncatewords_html:24 }}{% else %}<p>A trusted institution for school and competitive education.</p>{% endif %}
+                        {% if institution_profile.vision %}{{ institution_profile.vision|safe|truncatewords_html:26 }}{% else %}<p>A trusted institution for school and competitive education.</p>{% endif %}
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <a href="{% url 'core:about' %}" class="btn btn-outline-primary">Read About Us</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ==========================================
-     FEATURED COURSES
-========================================== -->
-<section class="py-5 bg-light">
+<section class="bg-light">
     <div class="container">
         <div class="text-center mb-5">
+            <span class="section-subtitle">Programs</span>
             <h2 data-aos="fade-up">Our Courses</h2>
-            <p class="text-muted">
-                Explore our most popular programs designed to help students excel.
-            </p>
+            <p class="text-muted mx-auto" style="max-width: 720px;">Explore programs designed to help students build foundations, confidence, and exam readiness.</p>
         </div>
-
-        <div class="row">
+        <div class="row g-4">
             {% for course in courses %}
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
-                <div class="card h-100 shadow-sm border-0">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="card h-100">
                     {% if course.image %}
-                    <img src="{{ course.image.url }}"
-                         class="card-img-top"
-                         alt="{{ course.name }}">
+                    <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.name }}" loading="lazy">
                     {% else %}
-                    <img src="{% static 'images/default-course.jpg' %}"
-                         class="card-img-top"
-                         alt="{{ course.name }}">
+                    <img src="{% static 'images/default-course.jpg' %}" class="card-img-top" alt="{{ course.name }}" loading="lazy">
                     {% endif %}
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.name }}</h5>
-                        <p class="card-text">
-                            {{ course.short_description|truncatewords:20 }}
-                        </p>
-                    </div>
-
-                    <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'courses:detail' course.slug %}"
-                           class="btn btn-outline-primary">
-                            Learn More
-                        </a>
+                    <div class="card-body d-flex flex-column">
+                        <span class="badge bg-primary align-self-start mb-3">{{ course.category.name }}</span>
+                        <h5>{{ course.name }}</h5>
+                        <p class="text-muted">{{ course.short_description|truncatewords:22 }}</p>
+                        <div class="d-flex flex-wrap gap-2 mt-auto">
+                            {% if course.duration %}<span class="badge text-bg-light"><i class="fas fa-clock me-1"></i>{{ course.duration }}</span>{% endif %}
+                            {% if course.level %}<span class="badge text-bg-light"><i class="fas fa-layer-group me-1"></i>{{ course.get_level_display }}</span>{% endif %}
+                        </div>
+                        <a href="{% url 'courses:detail' course.slug %}" class="btn btn-outline-primary mt-4">View Details</a>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p>Courses will be added soon.</p>
-            </div>
+            <div class="col-12 text-center"><p class="text-muted">Courses will be added soon.</p></div>
             {% endfor %}
         </div>
-
         {% if courses %}
-        <div class="text-center mt-4">
-            <a href="{% url 'courses:list' %}"
-               class="btn btn-primary">
-                View All Courses
-            </a>
+        <div class="text-center mt-5">
+            <a href="{% url 'courses:list' %}" class="btn btn-primary">View All Courses</a>
         </div>
         {% endif %}
     </div>
 </section>
 
-<!-- ==========================================
-     CAMPUS PREVIEW
-========================================== -->
-<section class="py-5">
+<section>
     <div class="container">
         <div class="text-center mb-5">
+            <span class="section-subtitle">Campus Life</span>
             <h2>Our Campus</h2>
             <p class="text-muted">Dedicated campus spaces with infrastructure and facilities for students.</p>
         </div>
         <div class="row g-4">
             {% for branch in branches %}
-            <div class="col-md-6">
+            <div class="col-md-6" data-aos="zoom-in">
                 <div class="card h-100">
                     {% if branch.image %}
-                    <img src="{{ branch.image.url }}" class="card-img-top" alt="{{ branch.name }}">
+                    <img src="{{ branch.image.url }}" class="card-img-top" alt="{{ branch.name }}" loading="lazy">
                     {% endif %}
                     <div class="card-body">
                         <span class="badge bg-primary">{{ branch.get_campus_type_display }}</span>
@@ -268,102 +120,97 @@
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">Campus details will be added soon.</p>
-            </div>
+            <div class="col-12 text-center"><p class="text-muted">Campus details will be added soon.</p></div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- ==========================================
-     FACILITIES PREVIEW
-========================================== -->
-<section class="py-5 bg-light">
+<section class="bg-light">
     <div class="container">
         <div class="text-center mb-5">
-            <h2>Facility</h2>
-            <p class="text-muted">Facilities and infrastructure that support learning and student life.</p>
+            <span class="section-subtitle">Facilities</span>
+            <h2>Learning Facilities</h2>
+            <p class="text-muted">Infrastructure that supports academic focus and student growth.</p>
         </div>
         <div class="row g-4">
             {% for facility in facilities %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    {% if facility.image %}
-                    <img src="{{ facility.image.url }}" class="card-img-top" alt="{{ facility.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5>{{ facility.name }}</h5>
-                        <p>{{ facility.description|striptags|truncatewords:20 }}</p>
-                    </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="premium-card p-4 h-100">
+                    <i class="fas fa-school icon-box"></i>
+                    <h5>{{ facility.name }}</h5>
+                    <p class="text-muted mb-0">{{ facility.description|striptags|truncatewords:22 }}</p>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">Facilities will be added soon.</p>
-            </div>
+            <div class="col-12 text-center"><p class="text-muted">Facilities will be added soon.</p></div>
             {% endfor %}
         </div>
-        <div class="text-center mt-4">
+        <div class="text-center mt-5">
             <a href="{% url 'facilities:list' %}" class="btn btn-primary">View Facilities</a>
         </div>
     </div>
 </section>
 
-<!-- ==========================================
-     TEAM / FACULTY SECTION
-========================================== -->
-<section class="py-5 bg-light">
+<section>
     <div class="container">
         <div class="text-center mb-5">
-            <h2 data-aos="fade-up">Our Leadership</h2>
-            <p class="text-muted">
-                Meet the dedicated educators and mentors guiding our students.
-            </p>
-
-            <!-- Debug (remove later) -->
-            <!-- <p>Total Team Members: {{ team_members|length }}</p> -->
+            <span class="section-subtitle">Advisory Leadership</span>
+            <h2>Our Advisory Team</h2>
+            <p class="text-muted">Guidance from experienced mentors and academic leaders.</p>
         </div>
-
-        <div class="row">
+        <div class="row g-4">
             {% for member in team_members %}
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
-                <div class="card h-100 border-0 shadow-sm text-center p-4">
-
-                    {% if member.image %}
-                    <img src="{{ member.image.url }}"
-                         class="rounded-circle mx-auto mb-3"
-                         width="180"
-                         height="180"
-                         alt="{{ member.name }}"
-                         style="object-fit: cover;">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="card h-100 text-center p-4">
+                    {% if member.display_photo %}
+                    <img src="{{ member.display_photo.url }}" class="rounded-circle mx-auto mb-3" width="170" height="170" alt="{{ member.display_name }}" loading="lazy" style="object-fit: cover;">
                     {% else %}
-                    <img src="{% static 'images/default-user.png' %}"
-                         class="rounded-circle mx-auto mb-3"
-                         width="180"
-                         height="180"
-                         alt="{{ member.name }}"
-                         style="object-fit: cover;">
+                    <img src="{% static 'images/default-user.png' %}" class="rounded-circle mx-auto mb-3" width="170" height="170" alt="{{ member.display_name }}" loading="lazy" style="object-fit: cover;">
                     {% endif %}
-
-                    <h5 class="mb-1">{{ member.name }}</h5>
-                    <p class="text-primary fw-semibold">{{ member.title }}</p>
-
-                    {% if member.bio %}
-                    <p class="text-muted small">
-                        {{ member.bio|striptags|truncatewords:20 }}
-                    </p>
-                    {% endif %}
+                    <h5 class="mb-1">{{ member.display_name }}</h5>
+                    <p class="text-primary fw-bold">{{ member.display_designation }}</p>
+                    {% if member.display_bio %}<div class="small text-muted">{{ member.display_bio|safe|truncatewords_html:24 }}</div>{% endif %}
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p>Team members will be added soon.</p>
-            </div>
+            <div class="col-12 text-center"><p class="text-muted">Advisory team profiles will be added soon.</p></div>
             {% endfor %}
         </div>
     </div>
 </section>
 
+{% if testimonials %}
+<section class="bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">Student Voices</span>
+            <h2>What Students Say</h2>
+        </div>
+        <div class="swiper testimonialSwiper">
+            <div class="swiper-wrapper">
+                {% for testimonial in testimonials %}
+                <div class="swiper-slide">
+                    <div class="premium-card p-4 h-100">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            {% if testimonial.image %}
+                            <img src="{{ testimonial.image.url }}" width="64" height="64" class="rounded-circle" alt="{{ testimonial.name }}" loading="lazy" style="object-fit: cover;">
+                            {% endif %}
+                            <div>
+                                <h5 class="mb-0">{{ testimonial.name }}</h5>
+                                <p class="text-muted mb-0">{{ testimonial.title }}</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">{{ testimonial.message }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination mt-4 position-static"></div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
+{% include "partials/cta.html" %}
 {% endblock %}

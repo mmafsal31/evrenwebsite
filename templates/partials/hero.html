@@ -1,0 +1,61 @@
+{% load static %}
+
+<div class="hero-slider"
+     data-autoplay="{{ site_settings.hero_autoplay_ms|default:5500 }}"
+     data-speed="{{ site_settings.hero_transition_ms|default:1400 }}"
+     data-media-fit="{{ site_settings.hero_media_fit|default:'cover' }}">
+    <div class="swiper heroSwiper">
+        <div class="swiper-wrapper">
+            {% for slide in hero_slides %}
+            <div class="swiper-slide">
+                {% if slide.video %}
+                <video class="hero-video" autoplay muted loop playsinline preload="auto">
+                    <source src="{{ slide.video.url }}" type="video/mp4">
+                </video>
+                {% elif slide.video_url %}
+                <video class="hero-video" autoplay muted loop playsinline preload="auto">
+                    <source src="{{ slide.video_url }}" type="video/mp4">
+                </video>
+                {% elif slide.image %}
+                <img src="{{ slide.image.url }}"
+                     alt="{{ slide.title }}"
+                     class="hero-image"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                     fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+                     decoding="async">
+                {% else %}
+                <img src="{% static 'images/default-hero.jpg' %}" alt="Evren Academy" class="hero-image">
+                {% endif %}
+
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    {% if slide.label %}<span class="hero-label">{{ slide.label }}</span>{% endif %}
+                    <h1>{{ slide.title }}</h1>
+                    {% if slide.subtitle %}<p class="lead">{{ slide.subtitle }}</p>{% endif %}
+                    {% if slide.content %}<div class="hero-richtext">{{ slide.content|safe }}</div>{% endif %}
+                    {% if slide.button_link %}
+                    <a href="{{ slide.button_link }}" class="btn btn-primary btn-lg mt-3">
+                        {{ slide.button_text|default:"Learn More" }}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="swiper-slide">
+                <img src="{% static 'images/default-hero.jpg' %}" alt="Evren Academy" class="hero-image">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-label">Welcome to</span>
+                    <h1>Evren Academy</h1>
+                    <p class="lead">Excellence in Education</p>
+                    <a href="{% url 'courses:list' %}" class="btn btn-primary btn-lg mt-3">Explore Courses</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
