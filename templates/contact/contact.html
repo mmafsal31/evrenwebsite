@@ -111,7 +111,7 @@
                             </div>
                             <div>
                                 <h6 class="mb-1">Phone</h6>
-                                <a href="tel:{{ site_settings.phone }}"
+                                <a href="{{ site_settings.tel_url }}"
                                    class="text-decoration-none">
                                     {{ site_settings.phone }}
                                 </a>
@@ -161,8 +161,9 @@
                             </div>
                             <div>
                                 <h6 class="mb-1">WhatsApp</h6>
-                                <a href="https://wa.me/{{ site_settings.whatsapp|slice:'1:' }}"
+                                <a href="{{ site_settings.whatsapp_url }}"
                                    target="_blank"
+                                   rel="noopener"
                                    class="text-decoration-none">
                                     {{ site_settings.whatsapp }}
                                 </a>

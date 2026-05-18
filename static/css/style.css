@@ -29,9 +29,9 @@
     --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.10);
     --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.15);
 
-    --radius-sm: 10px;
-    --radius-md: 20px;
-    --radius-lg: 30px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 8px;
 
     --transition: all 0.35s ease;
 }
@@ -286,7 +286,7 @@ h6 {
     font-weight: 700;
     color: var(--dark);
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
 }
 
 p {
@@ -479,6 +479,7 @@ section .text-muted {
     width: 100%;
     overflow: hidden;
     background: #000;
+    --hero-media-fit: cover;
 }
 
 /* 1920 x 900 */
@@ -496,6 +497,12 @@ section .text-muted {
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
+    opacity: 0 !important;
+    transition-property: opacity !important;
+}
+
+.hero-slider .swiper-slide-active {
+    opacity: 1 !important;
 }
 
 /* Hero Media */
@@ -505,7 +512,7 @@ section .text-muted {
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: var(--hero-media-fit);
     object-position: center center;
     background: #000;
 }
@@ -518,12 +525,7 @@ section .text-muted {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.78) 0%,
-        rgba(0, 0, 0, 0.55) 35%,
-        rgba(0, 0, 0, 0.20) 100%
-    );
+    background: linear-gradient(90deg, rgba(0, 0, 0, calc(var(--hero-overlay-opacity, 0.55) + 0.16)) 0%, rgba(0, 0, 0, var(--hero-overlay-opacity, 0.55)) 42%, rgba(0, 0, 0, 0.18) 100%);
     z-index: 1;
 }
 
@@ -553,7 +555,7 @@ section .text-muted {
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 25px;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
 }
 
 .hero-content p {
@@ -562,6 +564,22 @@ section .text-muted {
     line-height: 1.8;
     margin-bottom: 35px;
     max-width: 620px;
+}
+
+.hero-richtext {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1.05rem;
+    max-width: 620px;
+}
+
+.hero-richtext p,
+.hero-richtext li {
+    color: inherit;
+}
+
+.hero-richtext ul,
+.hero-richtext ol {
+    margin: 0 0 1.25rem 1.2rem;
 }
 
 /* Hero Animations */
@@ -627,7 +645,21 @@ section .text-muted {
 .card-img-top {
     height: 240px;
     object-fit: cover;
+    background: #f3f4f6;
     transition: transform 0.7s ease;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    min-height: 48px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(11, 93, 59, 0.12);
 }
 
 .card:hover .card-img-top {

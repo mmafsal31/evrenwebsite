@@ -57,18 +57,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // HERO SWIPER
     // ==========================================
+    const heroSlider = document.querySelector('.hero-slider');
+    if (heroSlider && heroSlider.dataset.mediaFit) {
+        heroSlider.style.setProperty('--hero-media-fit', heroSlider.dataset.mediaFit);
+    }
+
     if (typeof Swiper !== 'undefined' && document.querySelector('.hero-slider .swiper')) {
+        const autoplayDelay = parseInt(heroSlider?.dataset.autoplay || '5500', 10);
+        const transitionSpeed = parseInt(heroSlider?.dataset.speed || '1400', 10);
+
         new Swiper('.hero-slider .swiper', {
             slidesPerView: 1,
             spaceBetween: 0,
             loop: true,
-            speed: 1000,
+            speed: transitionSpeed,
             effect: 'fade',
             fadeEffect: {
                 crossFade: true,
             },
             autoplay: {
-                delay: 5000,
+                delay: autoplayDelay,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
             },
@@ -177,15 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (clickedOutside && collapse.classList.contains('show')) {
             toggler.click();
         }
-    });
-
-    // ==========================================
-    // FORM SUBMIT LOG
-    // ==========================================
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function () {
-            console.log('Form submitted');
-        });
     });
 
     // ==========================================

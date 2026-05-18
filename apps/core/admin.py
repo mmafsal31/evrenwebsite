@@ -9,21 +9,28 @@ from .models import SiteSettings, HeroSlide, Statistic, InstitutionProfile, Team
 # ==========================================
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
+    list_display = ('site_name', 'phone', 'whatsapp_link', 'email', 'show_announcement')
+    readonly_fields = ('logo_preview', 'favicon_preview', 'whatsapp_link')
+
     fieldsets = (
         ('Basic Information', {
             'fields': (
                 'site_name',
                 'tagline',
                 'logo',
+                'logo_preview',
                 'favicon',
+                'favicon_preview',
             )
         }),
         ('Contact Information', {
             'fields': (
                 'phone',
                 'whatsapp',
+                'whatsapp_link',
                 'email',
                 'address',
+                'google_map_embed',
             )
         }),
         ('Social Media Links', {
@@ -39,11 +46,17 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'fields': (
                 'primary_color',
                 'secondary_color',
+                'hero_autoplay_ms',
+                'hero_transition_ms',
+                'hero_overlay_opacity',
+                'hero_media_fit',
             )
         }),
         ('Footer & Announcement', {
             'fields': (
+                'footer_about',
                 'footer_text',
+                'copyright',
                 'announcement',
                 'show_announcement',
             )
@@ -53,6 +66,25 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # Allow only one Site Settings object
         return not SiteSettings.objects.exists()
+
+    def logo_preview(self, obj):
+        if obj.logo:
+            return format_html('<img src="{}" style="max-height: 70px; width: auto;" />', obj.logo.url)
+        return 'No logo uploaded'
+
+    def favicon_preview(self, obj):
+        if obj.favicon:
+            return format_html('<img src="{}" style="height: 32px; width: 32px; object-fit: contain;" />', obj.favicon.url)
+        return 'No favicon uploaded'
+
+    def whatsapp_link(self, obj):
+        if obj and obj.whatsapp_url:
+            return format_html('<a href="{}" target="_blank" rel="noopener">Open WhatsApp</a>', obj.whatsapp_url)
+        return 'Add a WhatsApp number'
+
+    logo_preview.short_description = 'Logo preview'
+    favicon_preview.short_description = 'Favicon preview'
+    whatsapp_link.short_description = 'WhatsApp test link'
 
 
 # ==========================================
@@ -75,6 +107,7 @@ class HeroSlideAdmin(admin.ModelAdmin):
         'media_type',
         'is_active',
     )
+    list_per_page = 25
     search_fields = (
         'title',
         'subtitle',
@@ -97,10 +130,11 @@ class HeroSlideAdmin(admin.ModelAdmin):
                 'image',
                 'video',
                 'video_url',
+                'preview',
             ),
             'description': (
                 'Choose Image or Video. '
-                'For video, upload an MP4 file or provide an external MP4 URL.'
+                'For best quality use 1920x900 or larger images and optimized MP4 videos.'
             )
         }),
         ('Button Settings', {
@@ -170,6 +204,7 @@ class StatisticAdmin(admin.ModelAdmin):
     list_editable = ('order',)
     search_fields = ('label',)
     ordering = ('order',)
+    list_per_page = 50
 
 
 @admin.register(InstitutionProfile)

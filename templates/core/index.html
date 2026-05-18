@@ -10,7 +10,10 @@
 <!-- ==========================================
      HERO SLIDER
 ========================================== -->
-<div class="hero-slider">
+<div class="hero-slider"
+     data-autoplay="{{ site_settings.hero_autoplay_ms|default:5500 }}"
+     data-speed="{{ site_settings.hero_transition_ms|default:1400 }}"
+     data-media-fit="{{ site_settings.hero_media_fit|default:'cover' }}">
     <div class="swiper heroSwiper">
         <div class="swiper-wrapper">
 
@@ -24,7 +27,7 @@
                            muted
                            loop
                            playsinline
-                           preload="metadata">
+                           preload="auto">
                         <source src="{{ slide.video.url }}" type="video/mp4">
                     </video>
 
@@ -34,14 +37,17 @@
                            muted
                            loop
                            playsinline
-                           preload="metadata">
+                           preload="auto">
                         <source src="{{ slide.video_url }}" type="video/mp4">
                     </video>
 
                 {% elif slide.image %}
                     <img src="{{ slide.image.url }}"
                          alt="{{ slide.title }}"
-                         class="hero-image">
+                         class="hero-image"
+                         loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                         fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+                         decoding="async">
 
                 {% else %}
                     <img src="{% static 'images/default-hero.jpg' %}"
@@ -66,6 +72,12 @@
                     <p class="lead">
                         {{ slide.subtitle }}
                     </p>
+                    {% endif %}
+
+                    {% if slide.content %}
+                    <div class="hero-richtext">
+                        {{ slide.content|safe }}
+                    </div>
                     {% endif %}
 
                     {% if slide.button_link %}

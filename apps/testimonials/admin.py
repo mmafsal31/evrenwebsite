@@ -5,4 +5,5 @@ from .models import Testimonial
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = ("name", "title", "rating", "is_active", "order")
     list_filter = ("is_active", "rating")
-    list_editable = ("order",)
+    list_editable = ("is_active", "order")
+    search_fields = ("name", "title", "message")

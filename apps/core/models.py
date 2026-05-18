@@ -1,8 +1,15 @@
+import re
+
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class SiteSettings(models.Model):
+    HERO_MEDIA_FIT_CHOICES = (
+        ('cover', 'Fill hero area (recommended)'),
+        ('contain', 'Show full media without cropping'),
+    )
+
     site_name = models.CharField(max_length=255, default='Evren Academy')
     tagline = models.CharField(max_length=255, blank=True)
 
@@ -21,6 +28,10 @@ class SiteSettings(models.Model):
     whatsapp = models.CharField(max_length=20, default='+92 300 1234567')
     email = models.EmailField(default='info@evrenacademy.com')
     address = models.TextField(blank=True)
+    google_map_embed = models.TextField(
+        blank=True,
+        help_text='Optional Google Maps iframe embed code for the contact page.'
+    )
 
     facebook = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
@@ -30,8 +41,37 @@ class SiteSettings(models.Model):
 
     primary_color = models.CharField(max_length=7, default='#0B5D3B')
     secondary_color = models.CharField(max_length=7, default='#D4AF37')
+    hero_autoplay_ms = models.PositiveIntegerField(
+        default=5500,
+        help_text='Hero slide autoplay delay in milliseconds.'
+    )
+    hero_transition_ms = models.PositiveIntegerField(
+        default=1400,
+        help_text='Hero dissolve transition speed in milliseconds.'
+    )
+    hero_overlay_opacity = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
+        default=0.55,
+        help_text='Dark overlay strength from 0.00 to 1.00.'
+    )
+    hero_media_fit = models.CharField(
+        max_length=10,
+        choices=HERO_MEDIA_FIT_CHOICES,
+        default='cover',
+        help_text='Choose how hero images and videos should fill the slide.'
+    )
 
+    footer_about = models.TextField(
+        blank=True,
+        default='Premium educational institution dedicated to excellence in education.'
+    )
     footer_text = RichTextUploadingField(blank=True, null=True)
+    copyright = models.CharField(
+        max_length=255,
+        blank=True,
+        default='Copyright (c) Evren Academy. All rights reserved.'
+    )
 
     announcement = models.CharField(max_length=500, blank=True)
     show_announcement = models.BooleanField(default=False)
@@ -42,6 +82,33 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return self.site_name
+
+    @staticmethod
+    def _digits(value):
+        return re.sub(r'\D+', '', value or '')
+
+    @property
+    def whatsapp_digits(self):
+        digits = self._digits(self.whatsapp)
+        if len(digits) == 10:
+            return f'91{digits}'
+        return digits
+
+    @property
+    def phone_digits(self):
+        return self._digits(self.phone)
+
+    @property
+    def whatsapp_url(self):
+        if not self.whatsapp_digits:
+            return ''
+        return f'https://wa.me/{self.whatsapp_digits}'
+
+    @property
+    def tel_url(self):
+        if not self.phone_digits:
+            return ''
+        return f'tel:+{self.phone_digits}'
 
 
 class HeroSlide(models.Model):

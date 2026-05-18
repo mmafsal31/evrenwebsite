@@ -21,7 +21,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body style="--primary: {{ site_settings.primary_color|default:'#0B5D3B' }}; --secondary: {{ site_settings.secondary_color|default:'#D4AF37' }}; --hero-overlay-opacity: {{ site_settings.hero_overlay_opacity|default:'0.55' }};">
     <!-- Top Announcement Bar -->
     {% if site_settings.show_announcement %}
     <div class="announcement-bar bg-dark text-white py-2">
@@ -44,12 +44,16 @@
     {% include 'includes/admission_popup.html' %}
 
     <!-- Floating Buttons -->
-    <a href="https://wa.me/{{ site_settings.whatsapp|slice:'1:' }}" class="whatsapp-btn" title="WhatsApp">
+    {% if site_settings.whatsapp_url %}
+    <a href="{{ site_settings.whatsapp_url }}" class="whatsapp-btn" title="WhatsApp" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
     </a>
-    <a href="tel:{{ site_settings.phone }}" class="call-btn" title="Call">
+    {% endif %}
+    {% if site_settings.tel_url %}
+    <a href="{{ site_settings.tel_url }}" class="call-btn" title="Call">
         <i class="fas fa-phone"></i>
     </a>
+    {% endif %}
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

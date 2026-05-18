@@ -7,3 +7,4 @@ class AdmissionEnquiryAdmin(admin.ModelAdmin):
     list_filter = ("course", "campus_preference", "is_read", "created_at")
     search_fields = ("name", "parent_name", "phone", "email", "course")
     list_editable = ("is_read",)
+    readonly_fields = ("created_at",)
