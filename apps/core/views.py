@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from django.utils import timezone
 from django.views.generic import TemplateView
 
-from .models import CTASection, HeroSlide, InstitutionProfile, Popup, SiteSettings, Statistic, TeamMember
+from .models import CTASection, HeroSlide, InstitutionProfile, SiteSettings, Statistic, TeamMember
 from apps.courses.models import Course
 from apps.branches.models import Branch
 from apps.facilities.models import Facility
@@ -46,22 +45,6 @@ class HomePageView(TemplateView):
         context['facilities'] = Facility.objects.all().order_by('order')[:6]
         context['testimonials'] = Testimonial.objects.filter(is_active=True).order_by('order')[:8]
         context['cta_section'] = CTASection.objects.filter(is_active=True).first()
-
-        now = timezone.now()
-        context['active_popup'] = Popup.objects.filter(
-            is_active=True,
-            show_on_homepage=True,
-        ).filter(
-            start_date__isnull=True
-        ).exclude(
-            end_date__lt=now
-        ).first() or Popup.objects.filter(
-            is_active=True,
-            show_on_homepage=True,
-            start_date__lte=now,
-        ).exclude(
-            end_date__lt=now
-        ).first()
 
         # Featured courses for homepage
         # If your Course model has is_active field, filter by it.

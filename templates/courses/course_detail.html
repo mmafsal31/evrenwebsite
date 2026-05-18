@@ -1,88 +1,140 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ object.name }} | Evren Academy{% endblock %}
+{% block title %}{{ course.name }} | {{ site_settings.site_name }}{% endblock %}
+{% block meta_description %}{{ course.short_description }}{% endblock %}
+{% block og_title %}{{ course.name }} | {{ site_settings.site_name }}{% endblock %}
+{% block og_description %}{{ course.short_description }}{% endblock %}
 
 {% block content %}
-
-<!-- Hero Banner -->
-<section class="py-5 bg-dark text-white">
+<section class="course-detail-hero">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <p class="text-warning mb-2">
-                    {{ object.category.name }}
-                </p>
-                <h1 class="display-4 fw-bold mb-3">
-                    {{ object.name }}
-                </h1>
-                <p class="lead">
-                    {{ object.short_description }}
-                </p>
-
-                <a href="/contact/" class="btn btn-primary btn-lg mt-3">
-                    Apply Now
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7" data-aos="fade-right">
+                <span class="section-subtitle">{{ course.category.name }}</span>
+                <h1 class="display-4 fw-bold mb-3">{{ course.name }}</h1>
+                <p class="lead text-muted">{{ course.short_description }}</p>
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    {% if course.duration %}<span class="badge text-bg-light px-3 py-2"><i class="fas fa-clock me-1"></i>{{ course.duration }}</span>{% endif %}
+                    {% if course.level %}<span class="badge text-bg-light px-3 py-2"><i class="fas fa-layer-group me-1"></i>{{ course.get_level_display }}</span>{% endif %}
+                    {% if course.fees %}<span class="badge text-bg-light px-3 py-2"><i class="fas fa-indian-rupee-sign me-1"></i>{{ course.fees }}</span>{% endif %}
+                </div>
+                <a href="{% url 'contact:list' %}" class="btn btn-accent">
+                    Enquire Now
+                    <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-
-            <div class="col-lg-6">
-                {% if object.image %}
-                <img src="{{ object.image.url }}"
-                     class="img-fluid rounded-4 shadow"
-                     alt="{{ object.name }}">
+            <div class="col-lg-5" data-aos="zoom-in">
+                {% if course.display_hero_image %}
+                <img src="{{ course.display_hero_image.url }}" class="img-fluid rounded-4 shadow-premium" alt="{{ course.name }}" loading="eager" fetchpriority="high">
                 {% endif %}
             </div>
         </div>
     </div>
 </section>
 
-<!-- Course Content -->
-<section class="py-5">
+<section>
     <div class="container">
-        <div class="row">
+        <div class="row g-5">
             <div class="col-lg-8">
-                {% if object.description %}
-                    {{ object.description|safe }}
-                {% else %}
+                <div class="content-panel mb-4">
+                    <span class="section-subtitle">Overview</span>
+                    <h2>Course Overview</h2>
+                    {% if course.display_overview %}
+                    {{ course.display_overview|safe }}
+                    {% else %}
                     <p>Course details will be updated soon.</p>
+                    {% endif %}
+                </div>
+
+                {% if course.features %}
+                <div class="content-panel mb-4">
+                    <span class="section-subtitle">Highlights</span>
+                    <h2>What You Will Gain</h2>
+                    {{ course.features|safe }}
+                </div>
+                {% endif %}
+
+                {% if course.curriculum %}
+                <div class="content-panel mb-4">
+                    <span class="section-subtitle">Curriculum</span>
+                    <h2>Curriculum</h2>
+                    <div class="accordion" id="curriculumAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#curriculumOne">
+                                    Course modules
+                                </button>
+                            </h3>
+                            <div id="curriculumOne" class="accordion-collapse collapse show" data-bs-parent="#curriculumAccordion">
+                                <div class="accordion-body">{{ course.curriculum|safe }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if course.faqs %}
+                <div class="content-panel">
+                    <span class="section-subtitle">Questions</span>
+                    <h2>Course FAQs</h2>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">
+                                    Frequently asked questions
+                                </button>
+                            </h3>
+                            <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">{{ course.faqs|safe }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
             </div>
 
             <div class="col-lg-4">
-                <div class="card shadow-sm border-0 rounded-4">
+                <div class="card course-meta-card">
                     <div class="card-body">
                         <h4 class="mb-4">Course Information</h4>
-
-                        {% if object.duration %}
-                        <p><strong>Duration:</strong> {{ object.duration }}</p>
-                        {% endif %}
-
-                        {% if object.mode %}
-                        <p><strong>Mode:</strong> {{ object.mode }}</p>
-                        {% endif %}
-
-                        {% if object.eligibility %}
-                        <p><strong>Eligibility:</strong> {{ object.eligibility }}</p>
-                        {% endif %}
-
-                        <a href="/contact/" class="btn btn-primary w-100 mt-3">
-                            Enquire Now
-                        </a>
+                        <div class="d-grid gap-3">
+                            {% if course.duration %}<p class="mb-0"><strong>Duration:</strong><br>{{ course.duration }}</p>{% endif %}
+                            {% if course.level %}<p class="mb-0"><strong>Level:</strong><br>{{ course.get_level_display }}</p>{% endif %}
+                            {% if course.fees %}<p class="mb-0"><strong>Fees:</strong><br>{{ course.fees }}</p>{% endif %}
+                            {% if course.eligibility %}<p class="mb-0"><strong>Eligibility:</strong><br>{{ course.eligibility }}</p>{% endif %}
+                        </div>
+                        <a href="{% url 'contact:list' %}" class="btn btn-primary w-100 mt-4">Apply / Enquire</a>
                     </div>
                 </div>
             </div>
         </div>
-        {% if object.features %}
-        <div class="row mt-5">
-            <div class="col-lg-8">
-                <div class="content-panel">
-                    <h2>Course Highlights</h2>
-                    {{ object.features|safe }}
-                </div>
-            </div>
-        </div>
-        {% endif %}
     </div>
 </section>
 
+{% if related_courses %}
+<section class="bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">Related Programs</span>
+            <h2>Explore Similar Courses</h2>
+        </div>
+        <div class="row g-4">
+            {% for related in related_courses %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if related.image %}<img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}" loading="lazy">{% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-3">{{ related.category.name }}</span>
+                        <h5>{{ related.name }}</h5>
+                        <p class="text-muted">{{ related.short_description|truncatewords:18 }}</p>
+                        <a href="{% url 'courses:detail' related.slug %}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
