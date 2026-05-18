@@ -1,7 +1,15 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import SiteSettings, HeroSlide, Statistic, InstitutionProfile, TeamMember
+from .models import (
+    CTASection,
+    HeroSlide,
+    InstitutionProfile,
+    Popup,
+    SiteSettings,
+    Statistic,
+    TeamMember,
+)
 
 
 # ==========================================
@@ -207,6 +215,58 @@ class StatisticAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 
+@admin.register(CTASection)
+class CTASectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'button_text', 'is_active', 'updated_at')
+    list_editable = ('is_active',)
+    readonly_fields = ('updated_at', 'image_preview')
+    fieldsets = (
+        ('Content', {
+            'fields': ('title', 'subtitle', 'image', 'image_preview')
+        }),
+        ('Button', {
+            'fields': ('button_text', 'button_link')
+        }),
+        ('Display', {
+            'fields': ('is_active', 'updated_at')
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not CTASection.objects.exists()
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-width: 260px; border-radius: 8px;" />', obj.image.url)
+        return 'No image uploaded'
+
+
+@admin.register(Popup)
+class PopupAdmin(admin.ModelAdmin):
+    list_display = ('title', 'show_on_homepage', 'show_once_per_session', 'is_active', 'start_date', 'end_date', 'display_order')
+    list_editable = ('show_on_homepage', 'show_once_per_session', 'is_active', 'display_order')
+    list_filter = ('is_active', 'show_on_homepage', 'show_once_per_session')
+    search_fields = ('title', 'description')
+    readonly_fields = ('updated_at', 'image_preview')
+    ordering = ('display_order', '-updated_at')
+    fieldsets = (
+        ('Popup Content', {
+            'fields': ('title', 'description', 'image', 'image_preview')
+        }),
+        ('Action Button', {
+            'fields': ('button_text', 'button_url')
+        }),
+        ('Display Rules', {
+            'fields': ('show_on_homepage', 'show_once_per_session', 'is_active', 'start_date', 'end_date', 'display_order', 'updated_at')
+        }),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-width: 260px; border-radius: 8px;" />', obj.image.url)
+        return 'No image uploaded'
+
+
 @admin.register(InstitutionProfile)
 class InstitutionProfileAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -231,38 +291,65 @@ class InstitutionProfileAdmin(admin.ModelAdmin):
 @admin.register(TeamMember)
 class TeamMemberAdmin(admin.ModelAdmin):
     list_display = (
-        'name',
-        'title',
-        'role',
+        'display_name',
+        'display_designation',
+        'team_category',
+        'is_active',
         'image_preview',
-        'order',
+        'display_order',
     )
-    list_editable = ('order',)
-    list_filter = ('role',)
+    list_editable = ('team_category', 'is_active', 'display_order')
+    list_filter = ('team_category', 'is_active')
     search_fields = (
         'name',
         'title',
+        'full_name',
+        'designation',
     )
-    ordering = ('order',)
+    ordering = ('display_order', 'order')
 
     readonly_fields = ('image_preview',)
 
     fieldsets = (
         ('Basic Information', {
             'fields': (
+                'full_name',
+                'designation',
+                'team_category',
+                'photo',
+                'image_preview',
+                'short_bio',
+            )
+        }),
+        ('Social Links', {
+            'fields': (
+                'linkedin_url',
+                'facebook_url',
+                'instagram_url',
+            )
+        }),
+        ('Legacy Content', {
+            'classes': ('collapse',),
+            'fields': (
                 'name',
                 'title',
                 'role',
                 'image',
-                'image_preview',
                 'bio',
                 'order',
+            )
+        }),
+        ('Display Controls', {
+            'fields': (
+                'display_order',
+                'is_active',
             )
         }),
     )
 
     def image_preview(self, obj):
-        if obj.image:
+        image = obj.display_photo
+        if image:
             return format_html(
                 '''
                 <img src="{}"
@@ -272,7 +359,7 @@ class TeamMemberAdmin(admin.ModelAdmin):
                             border-radius: 50%;
                             box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
                 ''',
-                obj.image.url
+                image.url
             )
         return "No image"
 

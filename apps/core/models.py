@@ -1,5 +1,6 @@
 import re
 
+from django.utils import timezone
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -194,6 +195,57 @@ class Statistic(models.Model):
         return f"{self.label}: {self.value}"
 
 
+class CTASection(models.Model):
+    title = models.CharField(max_length=255, default='Ready to begin your learning journey?')
+    subtitle = models.CharField(max_length=500, blank=True)
+    button_text = models.CharField(max_length=100, default='Apply for Admission')
+    button_link = models.CharField(max_length=255, default='/admissions/')
+    image = models.ImageField(upload_to='cta/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'CTA Section'
+        verbose_name_plural = 'CTA Section'
+
+    def __str__(self):
+        return self.title
+
+
+class Popup(models.Model):
+    title = models.CharField(max_length=255)
+    description = RichTextUploadingField(blank=True, null=True)
+    image = models.ImageField(upload_to='popups/', blank=True, null=True)
+    button_text = models.CharField(max_length=100, blank=True, default='Learn More')
+    button_url = models.CharField(max_length=255, blank=True)
+    show_on_homepage = models.BooleanField(default=True)
+    show_once_per_session = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    display_order = models.PositiveIntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['display_order', '-updated_at']
+        verbose_name = 'Popup'
+        verbose_name_plural = 'Popups'
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def is_current(self):
+        now = timezone.now()
+        if not self.is_active:
+            return False
+        if self.start_date and self.start_date > now:
+            return False
+        if self.end_date and self.end_date < now:
+            return False
+        return True
+
+
 class InstitutionProfile(models.Model):
     title = models.CharField(max_length=255, default='About Evren Academy')
     intro = RichTextUploadingField(blank=True, null=True)
@@ -221,11 +273,26 @@ class TeamMember(models.Model):
         ('principal', 'Principal'),
     )
 
+    TEAM_CATEGORY_CHOICES = (
+        ('advisory', 'Advisory Board'),
+        ('management', 'Management Team'),
+        ('faculty', 'Faculty Team'),
+        ('staff', 'Staff'),
+    )
+
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, default='faculty')
+    full_name = models.CharField(max_length=255, blank=True)
+    designation = models.CharField(max_length=255, blank=True)
+    team_category = models.CharField(max_length=30, choices=TEAM_CATEGORY_CHOICES, default='faculty')
 
     image = models.ImageField(
+        upload_to='team/',
+        blank=True,
+        null=True
+    )
+    photo = models.ImageField(
         upload_to='team/',
         blank=True,
         null=True
@@ -235,13 +302,35 @@ class TeamMember(models.Model):
         blank=True,
         null=True
     )
+    short_bio = RichTextUploadingField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True)
+    facebook_url = models.URLField(blank=True)
+    instagram_url = models.URLField(blank=True)
 
     order = models.PositiveIntegerField(default=0)
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['order']
+        ordering = ['display_order', 'order']
         verbose_name = 'Team Member'
         verbose_name_plural = 'Team Members'
 
     def __str__(self):
-        return self.name
+        return self.display_name
+
+    @property
+    def display_name(self):
+        return self.full_name or self.name
+
+    @property
+    def display_designation(self):
+        return self.designation or self.title
+
+    @property
+    def display_photo(self):
+        return self.photo or self.image
+
+    @property
+    def display_bio(self):
+        return self.short_bio or self.bio

@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import TemplateView
 
-from .models import SiteSettings, HeroSlide, Statistic, InstitutionProfile, TeamMember
+from .models import CTASection, HeroSlide, InstitutionProfile, Popup, SiteSettings, Statistic, TeamMember
 from apps.courses.models import Course
 from apps.branches.models import Branch
 from apps.facilities.models import Facility
+from apps.testimonials.models import Testimonial
 
 
 def get_site_settings():
@@ -29,18 +31,37 @@ class HomePageView(TemplateView):
         context['site_settings'] = get_site_settings()
 
         # Active hero slides only
-        context['hero_slides'] = HeroSlide.objects.filter(
-            is_active=True
-        ).order_by('order')
+        context['hero_slides'] = HeroSlide.objects.filter(is_active=True).order_by('order')
 
         # Statistics section
         context['statistics'] = Statistic.objects.all().order_by('order')
 
-        # Leadership team (show first 6)
-        context['team_members'] = TeamMember.objects.all().order_by('order')[:6]
+        # Homepage leadership section intentionally shows advisory members only.
+        context['team_members'] = TeamMember.objects.filter(
+            team_category='advisory',
+            is_active=True,
+        ).order_by('display_order', 'order')[:6]
         context['institution_profile'] = get_institution_profile()
         context['branches'] = Branch.objects.filter(is_active=True).order_by('order')[:2]
         context['facilities'] = Facility.objects.all().order_by('order')[:6]
+        context['testimonials'] = Testimonial.objects.filter(is_active=True).order_by('order')[:8]
+        context['cta_section'] = CTASection.objects.filter(is_active=True).first()
+
+        now = timezone.now()
+        context['active_popup'] = Popup.objects.filter(
+            is_active=True,
+            show_on_homepage=True,
+        ).filter(
+            start_date__isnull=True
+        ).exclude(
+            end_date__lt=now
+        ).first() or Popup.objects.filter(
+            is_active=True,
+            show_on_homepage=True,
+            start_date__lte=now,
+        ).exclude(
+            end_date__lt=now
+        ).first()
 
         # Featured courses for homepage
         # If your Course model has is_active field, filter by it.
@@ -73,12 +94,11 @@ class PeoplePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        members = TeamMember.objects.all().order_by('role', 'order')
+        members = TeamMember.objects.filter(is_active=True).order_by('display_order', 'order')
         context['people_groups'] = {
-            'Principal': members.filter(role='principal'),
-            'Faculty': members.filter(role='faculty'),
-            'Advisory Board': members.filter(role='advisory_board'),
-            'Associates': members.filter(role='associate'),
+            'Advisory Board': members.filter(team_category='advisory'),
+            'Management Team': members.filter(team_category='management'),
+            'Faculty Team': members.filter(team_category='faculty'),
         }
         return context
 
