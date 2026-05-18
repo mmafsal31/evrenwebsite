@@ -19,7 +19,10 @@ SECRET_KEY = config(
     default='django-insecure-change-this-in-production'
 )
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+try:
+    DEBUG = config('DEBUG', default=True, cast=bool)
+except ValueError:
+    DEBUG = True
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
