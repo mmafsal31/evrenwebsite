@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}People - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">People</span>
+        <h1>Associates, Advisory Board, Faculty, and Principal</h1>
+        <p>Meet the people who lead, mentor, and support our students.</p>
+    </div>
+</section>
+
+{% for group_title, members in people_groups.items %}
+<section class="py-5 {% cycle '' 'bg-light' %}">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>{{ group_title }}</h2>
+        </div>
+        <div class="row g-4">
+            {% for member in members %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    {% if member.image %}
+                    <img src="{{ member.image.url }}" class="rounded-circle mx-auto mb-3" width="160" height="160" alt="{{ member.name }}" style="object-fit: cover;">
+                    {% else %}
+                    <img src="{% static 'images/default-user.png' %}" class="rounded-circle mx-auto mb-3" width="160" height="160" alt="{{ member.name }}" style="object-fit: cover;">
+                    {% endif %}
+                    <h5>{{ member.name }}</h5>
+                    <p class="text-primary fw-semibold mb-2">{{ member.title }}</p>
+                    {% if member.bio %}
+                    <div class="small text-muted">{{ member.bio|safe }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">{{ group_title }} profiles will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% endblock %}

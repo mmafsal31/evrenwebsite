@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">About Us</span>
+        <h1>{{ institution_profile.title|default:"About Evren Academy" }}</h1>
+        <p>Mission, vision, history, and the educational values that shape our institution.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-7">
+                <div class="content-panel">
+                    <h2>Our Institution</h2>
+                    {% if institution_profile.intro %}
+                        {{ institution_profile.intro|safe }}
+                    {% else %}
+                        <p>Evren Academy is committed to focused learning, student guidance, and academic growth through a disciplined campus environment.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="info-list">
+                    <div>
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Mission</h3>
+                        {% if institution_profile.mission %}{{ institution_profile.mission|safe }}{% else %}<p>To build confident learners with strong academic foundations.</p>{% endif %}
+                    </div>
+                    <div>
+                        <i class="fas fa-eye"></i>
+                        <h3>Vision</h3>
+                        {% if institution_profile.vision %}{{ institution_profile.vision|safe }}{% else %}<p>To become a trusted institution for competitive and school education.</p>{% endif %}
+                    </div>
+                    <div>
+                        <i class="fas fa-landmark"></i>
+                        <h3>History</h3>
+                        {% if institution_profile.history %}{{ institution_profile.history|safe }}{% else %}<p>Our story and milestones can be updated from the admin panel.</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center mt-5">
+            {% for stat in statistics %}
+            <div class="col-md-3 col-6 mb-4">
+                <h3 class="counter">{{ stat.value }}</h3>
+                <p class="text-muted">{{ stat.label }} {{ stat.unit }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

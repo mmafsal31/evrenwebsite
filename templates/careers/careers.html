@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Career - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">Career</span>
+        <h1>Job Opportunities</h1>
+        <p>Apply to join the academic and administrative team at Evren Academy.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'success' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="content-panel">
+                    <h2>Work With Us</h2>
+                    {% if institution_profile.career_overview %}
+                        {{ institution_profile.career_overview|safe }}
+                    {% else %}
+                        <p>We welcome passionate educators, mentors, and operational professionals who want to contribute to student success.</p>
+                    {% endif %}
+                </div>
+                <div class="mt-4">
+                    <h3>Open Positions</h3>
+                    {% for job in jobs %}
+                    <div class="job-item">
+                        <h5>{{ job.title }}</h5>
+                        <p class="mb-1"><i class="fas fa-location-dot me-2"></i>{{ job.location }}</p>
+                        {% if job.salary_range %}<p class="mb-1"><strong>Salary:</strong> {{ job.salary_range }}</p>{% endif %}
+                        {% if job.deadline %}<p class="mb-2"><strong>Deadline:</strong> {{ job.deadline }}</p>{% endif %}
+                        <p>{{ job.description|linebreaksbr }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">Current openings will be added soon.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-premium">
+                    <div class="card-body p-4 p-lg-5">
+                        <h3 class="mb-4">Candidate Application Form</h3>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Select Job</label>
+                                <select class="form-control" name="job" required>
+                                    <option value="">Choose an opening</option>
+                                    {% for job in jobs %}
+                                    <option value="{{ job.id }}">{{ job.title }} - {{ job.location }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Resume</label>
+                                <input type="file" class="form-control" name="resume" accept=".pdf,.doc,.docx" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Cover Letter</label>
+                                <textarea class="form-control" name="cover_letter" rows="5"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

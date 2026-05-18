@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import SiteSettings, HeroSlide, Statistic, TeamMember
+from .models import SiteSettings, HeroSlide, Statistic, InstitutionProfile, TeamMember
 
 
 # ==========================================
@@ -172,6 +172,24 @@ class StatisticAdmin(admin.ModelAdmin):
     ordering = ('order',)
 
 
+@admin.register(InstitutionProfile)
+class InstitutionProfileAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('About Page', {
+            'fields': ('title', 'intro', 'mission', 'vision', 'history')
+        }),
+        ('Admission Page', {
+            'fields': ('admission_overview', 'eligibility')
+        }),
+        ('Career Page', {
+            'fields': ('career_overview',)
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not InstitutionProfile.objects.exists()
+
+
 # ==========================================
 # Team Member Admin
 # ==========================================
@@ -180,10 +198,12 @@ class TeamMemberAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'title',
+        'role',
         'image_preview',
         'order',
     )
     list_editable = ('order',)
+    list_filter = ('role',)
     search_fields = (
         'name',
         'title',
@@ -197,6 +217,7 @@ class TeamMemberAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'title',
+                'role',
                 'image',
                 'image_preview',
                 'bio',

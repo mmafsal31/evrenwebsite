@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ branch.name }} - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">{{ branch.get_campus_type_display }}</span>
+        <h1>{{ branch.name }}</h1>
+        <p>{{ branch.city }} campus information, infrastructure, and available facilities.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                {% if branch.image %}
+                <img src="{{ branch.image.url }}" class="img-fluid rounded-premium shadow-premium mb-4" alt="{{ branch.name }}">
+                {% endif %}
+                <div class="content-panel">
+                    <h2>Campus Overview</h2>
+                    {{ branch.description|safe }}
+                </div>
+                {% if branch.infrastructure_details %}
+                <div class="content-panel mt-4">
+                    <h2>Infrastructure Details</h2>
+                    {{ branch.infrastructure_details|safe }}
+                </div>
+                {% endif %}
+                {% if branch.facilities_available %}
+                <div class="content-panel mt-4">
+                    <h2>Facilities Available</h2>
+                    {{ branch.facilities_available|safe }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-premium">
+                    <div class="card-body p-4">
+                        <h3>Campus Contact</h3>
+                        <p><strong>Address:</strong><br>{{ branch.address }}</p>
+                        <p><strong>Phone:</strong> <a href="tel:{{ branch.phone }}">{{ branch.phone }}</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:{{ branch.email }}">{{ branch.email }}</a></p>
+                        <button type="button" class="btn btn-primary w-100 js-open-admission">Apply for this Campus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

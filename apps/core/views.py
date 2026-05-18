@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from .models import SiteSettings, HeroSlide, Statistic, TeamMember
+from .models import SiteSettings, HeroSlide, Statistic, InstitutionProfile, TeamMember
 from apps.courses.models import Course
+from apps.branches.models import Branch
+from apps.facilities.models import Facility
 
 
 def get_site_settings():
@@ -11,6 +13,10 @@ def get_site_settings():
     Creates one automatically if none exists.
     """
     return SiteSettings.objects.first() or SiteSettings.objects.create()
+
+
+def get_institution_profile():
+    return InstitutionProfile.objects.first() or InstitutionProfile.objects.create()
 
 
 class HomePageView(TemplateView):
@@ -32,6 +38,9 @@ class HomePageView(TemplateView):
 
         # Leadership team (show first 6)
         context['team_members'] = TeamMember.objects.all().order_by('order')[:6]
+        context['institution_profile'] = get_institution_profile()
+        context['branches'] = Branch.objects.filter(is_active=True).order_by('order')[:2]
+        context['facilities'] = Facility.objects.all().order_by('order')[:6]
 
         # Featured courses for homepage
         # If your Course model has is_active field, filter by it.
@@ -46,6 +55,31 @@ class HomePageView(TemplateView):
         # Optional featured courses alias
         context['featured_courses'] = context['courses']
 
+        return context
+
+
+class AboutPageView(TemplateView):
+    template_name = 'core/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['institution_profile'] = get_institution_profile()
+        context['statistics'] = Statistic.objects.all().order_by('order')
+        return context
+
+
+class PeoplePageView(TemplateView):
+    template_name = 'core/people.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        members = TeamMember.objects.all().order_by('role', 'order')
+        context['people_groups'] = {
+            'Principal': members.filter(role='principal'),
+            'Faculty': members.filter(role='faculty'),
+            'Advisory Board': members.filter(role='advisory_board'),
+            'Associates': members.filter(role='associate'),
+        }
         return context
 
 

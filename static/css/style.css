@@ -36,6 +36,220 @@
     --transition: all 0.35s ease;
 }
 
+/* ==========================================
+   FIXED ADMISSION POPUP CSS
+   This version overrides Bootstrap styles
+========================================== */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 99999;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: all 0.4s ease;
+    padding: 20px;
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.popup-modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    animation: popupFadeUp 0.5s ease;
+    overflow: hidden;
+}
+
+/* Close Button */
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.popup-close:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+/* Header */
+.popup-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.popup-header h2 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.popup-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Form Layout */
+.popup-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Inputs */
+.popup-modal form input,
+.popup-modal form select,
+.popup-modal form textarea {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 14px 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+
+    font-size: 15px;
+    font-family: inherit;
+    color: #111827;
+
+    outline: none;
+    box-sizing: border-box;
+
+    transition: all 0.3s ease;
+}
+
+.popup-modal form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.popup-modal form input:focus,
+.popup-modal form select:focus,
+.popup-modal form textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(11, 93, 59, 0.1);
+}
+
+/* Submit Button */
+.popup-submit-btn {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 15px 20px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--gradient-primary);
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(11, 93, 59, 0.25);
+}
+
+.popup-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(11, 93, 59, 0.35);
+}
+
+/* Prevent body scroll */
+body.popup-open {
+    overflow: hidden;
+}
+
+/* Animation */
+@keyframes popupFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .popup-overlay {
+        padding: 15px;
+    }
+
+    .popup-modal {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .popup-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .popup-close {
+        width: 38px;
+        height: 38px;
+        font-size: 24px;
+        top: 12px;
+        right: 12px;
+    }
+
+    .popup-modal form input,
+    .popup-modal form select,
+    .popup-modal form textarea {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .popup-submit-btn {
+        padding: 14px;
+        font-size: 15px;
+    }
+}
+
 /* =========================================================
    RESET
 ========================================================= */
@@ -193,6 +407,34 @@ section .text-muted {
 .navbar-nav .nav-link:hover::after,
 .navbar-nav .nav-link.active::after {
     width: 100%;
+}
+
+.navbar .dropdown-menu {
+    border: 0;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 10px;
+}
+
+.navbar .dropdown-item {
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 10px 14px;
+}
+
+.navbar .dropdown-item:hover {
+    background: rgba(11, 93, 59, 0.08);
+    color: var(--primary);
+}
+
+.navbar .btn.nav-link {
+    align-items: center;
+    border: 0;
+    display: inline-flex;
+}
+
+.navbar .btn.nav-link::after {
+    display: none;
 }
 
 /* =========================================================
@@ -394,6 +636,76 @@ section .text-muted {
 
 .card-body {
     padding: 1.75rem;
+}
+
+/* =========================================================
+   INNER PAGES
+========================================================= */
+.page-hero {
+    background: linear-gradient(135deg, #0B5D3B 0%, #111827 100%);
+    color: #fff;
+    padding: 90px 0;
+}
+
+.page-hero h1 {
+    color: #fff;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    max-width: 900px;
+}
+
+.page-hero p {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1.15rem;
+    max-width: 760px;
+}
+
+.section-subtitle {
+    color: var(--secondary);
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+}
+
+.content-panel,
+.info-list > div,
+.job-item {
+    background: #fff;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    padding: 28px;
+}
+
+.info-list {
+    display: grid;
+    gap: 18px;
+}
+
+.info-list i {
+    align-items: center;
+    background: rgba(11, 93, 59, 0.1);
+    border-radius: 50%;
+    color: var(--primary);
+    display: inline-flex;
+    height: 48px;
+    justify-content: center;
+    margin-bottom: 16px;
+    width: 48px;
+}
+
+.job-item + .job-item {
+    margin-top: 18px;
+}
+
+.rounded-premium {
+    border-radius: 8px;
+}
+
+.shadow-premium {
+    box-shadow: var(--shadow-md);
 }
 
 /* =========================================================
@@ -619,3 +931,5 @@ footer a:hover {
         padding: 60px 0;
     }
 }
+
+

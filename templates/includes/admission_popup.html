@@ -1,0 +1,29 @@
+<div class="popup-overlay" id="admissionPopup" aria-hidden="true">
+    <div class="popup-modal" role="dialog" aria-modal="true" aria-labelledby="admissionPopupTitle">
+        <button type="button" class="popup-close" id="admissionPopupClose" aria-label="Close admission form">&times;</button>
+        <div class="popup-header">
+            <h2 id="admissionPopupTitle">Admission Registration</h2>
+            <p>Share your details and our admission team will contact you.</p>
+        </div>
+        <form method="post" action="{% url 'admissions:list' %}">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Student Name" required>
+            <input type="text" name="parent_name" placeholder="Parent Name">
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <select name="course">
+                <option value="">Course Interested In</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IPS">IPS</option>
+                <option value="IAS">IAS</option>
+            </select>
+            <select name="campus_preference">
+                <option value="">Campus Preference</option>
+                <option value="Boys Campus">Boys Campus</option>
+                <option value="Girls Campus">Girls Campus</option>
+            </select>
+            <textarea name="message" placeholder="Message"></textarea>
+            <button type="submit" class="popup-submit-btn">Submit</button>
+        </form>
+    </div>
+</div>

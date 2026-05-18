@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Facility - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">Facility</span>
+        <h1>Campus Facilities and Infrastructure</h1>
+        <p>Facilities, learning spaces, and campus resources available to students.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for facility in facilities %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if facility.image %}
+                    <img src="{{ facility.image.url }}" class="card-img-top" alt="{{ facility.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5>{{ facility.name }}</h5>
+                        <div>{{ facility.description|safe }}</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Facilities will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

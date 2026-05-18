@@ -1,11 +1,18 @@
 
 {% extends "base.html" %}
 
-{% block title %}Branches - {{ site_settings.site_name }}{% endblock %}
+{% block title %}{{ page_title|default:"Our Campus" }} - {{ site_settings.site_name }}{% endblock %}
 
 {% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section-subtitle">Our Campus</span>
+        <h1>{{ page_title|default:"Our Campus" }}</h1>
+        <p>Explore campus infrastructure, images, and student facilities.</p>
+    </div>
+</section>
+
 <div class="container py-5">
-    <h1 class="mb-5">Our Branches</h1>
 
     <div class="row">
         {% for branch in branches %}
@@ -27,6 +34,10 @@
                     <a href="{% url 'branches:detail' branch.slug %}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">Campus details will be added soon.</p>
         </div>
         {% endfor %}
     </div>

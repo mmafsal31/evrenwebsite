@@ -72,6 +72,16 @@
                 </div>
             </div>
         </div>
+        {% if object.features %}
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <div class="content-panel">
+                    <h2>Course Highlights</h2>
+                    {{ object.features|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </section>
 

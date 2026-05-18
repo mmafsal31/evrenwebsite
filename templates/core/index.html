@@ -5,6 +5,8 @@
 
 {% block content %}
 
+
+
 <!-- ==========================================
      HERO SLIDER
 ========================================== -->
@@ -135,9 +137,45 @@
 </section>
 
 <!-- ==========================================
-     FEATURED COURSES
+     ABOUT PREVIEW
 ========================================== -->
 <section class="py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-7">
+                <span class="section-subtitle">About Us</span>
+                <h2>Evren Academy</h2>
+                {% if institution_profile.intro %}
+                    {{ institution_profile.intro|safe|truncatewords_html:60 }}
+                {% else %}
+                    <p>Evren Academy provides focused academic guidance, structured preparation, and a disciplined learning environment for students.</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-5">
+                <div class="info-list">
+                    <div>
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Mission</h3>
+                        {% if institution_profile.mission %}{{ institution_profile.mission|safe|truncatewords_html:24 }}{% else %}<p>Strong foundations, personal guidance, and confident academic growth.</p>{% endif %}
+                    </div>
+                    <div>
+                        <i class="fas fa-eye"></i>
+                        <h3>Vision</h3>
+                        {% if institution_profile.vision %}{{ institution_profile.vision|safe|truncatewords_html:24 }}{% else %}<p>A trusted institution for school and competitive education.</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <a href="{% url 'core:about' %}" class="btn btn-outline-primary">Read About Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     FEATURED COURSES
+========================================== -->
+<section class="py-5 bg-light">
     <div class="container">
         <div class="text-center mb-5">
             <h2 data-aos="fade-up">Our Courses</h2>
@@ -190,6 +228,73 @@
             </a>
         </div>
         {% endif %}
+    </div>
+</section>
+
+<!-- ==========================================
+     CAMPUS PREVIEW
+========================================== -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Our Campus</h2>
+            <p class="text-muted">Dedicated campus spaces with infrastructure and facilities for students.</p>
+        </div>
+        <div class="row g-4">
+            {% for branch in branches %}
+            <div class="col-md-6">
+                <div class="card h-100">
+                    {% if branch.image %}
+                    <img src="{{ branch.image.url }}" class="card-img-top" alt="{{ branch.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-primary">{{ branch.get_campus_type_display }}</span>
+                        <h5 class="mt-3">{{ branch.name }}</h5>
+                        <p>{{ branch.description|striptags|truncatewords:24 }}</p>
+                        <a href="{% url 'branches:detail' branch.slug %}" class="btn btn-outline-primary">View Campus</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Campus details will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     FACILITIES PREVIEW
+========================================== -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Facility</h2>
+            <p class="text-muted">Facilities and infrastructure that support learning and student life.</p>
+        </div>
+        <div class="row g-4">
+            {% for facility in facilities %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if facility.image %}
+                    <img src="{{ facility.image.url }}" class="card-img-top" alt="{{ facility.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5>{{ facility.name }}</h5>
+                        <p>{{ facility.description|striptags|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Facilities will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'facilities:list' %}" class="btn btn-primary">View Facilities</a>
+        </div>
     </div>
 </section>
 
@@ -247,5 +352,6 @@
         </div>
     </div>
 </section>
+
 
 {% endblock %}

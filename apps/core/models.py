@@ -127,9 +127,36 @@ class Statistic(models.Model):
         return f"{self.label}: {self.value}"
 
 
+class InstitutionProfile(models.Model):
+    title = models.CharField(max_length=255, default='About Evren Academy')
+    intro = RichTextUploadingField(blank=True, null=True)
+    mission = RichTextUploadingField(blank=True, null=True)
+    vision = RichTextUploadingField(blank=True, null=True)
+    history = RichTextUploadingField(blank=True, null=True)
+    admission_overview = RichTextUploadingField(blank=True, null=True)
+    eligibility = RichTextUploadingField(blank=True, null=True)
+    career_overview = RichTextUploadingField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Institution Profile'
+        verbose_name_plural = 'Institution Profile'
+
+    def __str__(self):
+        return self.title
+
+
 class TeamMember(models.Model):
+    ROLE_CHOICES = (
+        ('associate', 'Associate'),
+        ('advisory_board', 'Advisory Board'),
+        ('faculty', 'Faculty'),
+        ('principal', 'Principal'),
+    )
+
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, default='faculty')
 
     image = models.ImageField(
         upload_to='team/',

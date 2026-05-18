@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     {% block extra_css %}{% endblock %}
 </head>
+
 <body>
     <!-- Top Announcement Bar -->
     {% if site_settings.show_announcement %}
@@ -40,6 +41,7 @@
 
     <!-- Footer -->
     {% include 'includes/footer.html' %}
+    {% include 'includes/admission_popup.html' %}
 
     <!-- Floating Buttons -->
     <a href="https://wa.me/{{ site_settings.whatsapp|slice:'1:' }}" class="whatsapp-btn" title="WhatsApp">

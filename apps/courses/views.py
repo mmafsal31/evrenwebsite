@@ -18,6 +18,7 @@ class CourseListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = CourseCategory.objects.all()
+        context['selected_category'] = self.request.GET.get('category')
         return context
 
 class CourseDetailView(DetailView):

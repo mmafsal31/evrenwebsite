@@ -6,6 +6,14 @@
 {% block content %}
 <div class="container py-5">
     <h1 class="mb-5">Admissions</h1>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'success' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
 
     <div class="row">
         <div class="col-md-6 mb-4">
@@ -13,8 +21,12 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label class="form-label">Full Name</label>
+                    <label class="form-label">Student Name</label>
                     <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Parent Name</label>
+                    <input type="text" class="form-control" name="parent_name">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
@@ -26,7 +38,28 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Course of Interest</label>
-                    <input type="text" class="form-control" name="course">
+                    <select class="form-control" name="course">
+                        <option value="">Select course</option>
+                        {% for course in courses %}
+                        <option value="{{ course.name }}">{{ course.name }}</option>
+                        {% empty %}
+                        <option value="ICSE">ICSE</option>
+                        <option value="IPS">IPS</option>
+                        <option value="IAS">IAS</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Campus Preference</label>
+                    <select class="form-control" name="campus_preference">
+                        <option value="">Select campus</option>
+                        {% for campus in campuses %}
+                        <option value="{{ campus.name }}">{{ campus.name }}</option>
+                        {% empty %}
+                        <option value="Boys Campus">Boys Campus</option>
+                        <option value="Girls Campus">Girls Campus</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Message</label>
@@ -38,13 +71,20 @@
 
         <div class="col-md-6">
             <h2>Admission Information</h2>
+            {% if institution_profile.admission_overview %}
+                {{ institution_profile.admission_overview|safe }}
+            {% endif %}
             <h5>Admission Requirements</h5>
-            <ul>
-                <li>Valid educational qualifications</li>
-                <li>Completed application form</li>
-                <li>Entrance test (if applicable)</li>
-                <li>Interview</li>
-            </ul>
+            {% if institution_profile.eligibility %}
+                {{ institution_profile.eligibility|safe }}
+            {% else %}
+                <ul>
+                    <li>Valid educational qualifications</li>
+                    <li>Completed application form</li>
+                    <li>Entrance test if applicable</li>
+                    <li>Interview</li>
+                </ul>
+            {% endif %}
 
             <h5 class="mt-4">Admission Timeline</h5>
             <div class="timeline">

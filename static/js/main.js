@@ -3,6 +3,55 @@
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', function () {
+    const admissionPopup = document.getElementById('admissionPopup');
+    const admissionClose = document.getElementById('admissionPopupClose');
+    const admissionOpeners = document.querySelectorAll('.js-open-admission');
+
+    function openAdmissionPopup() {
+        if (!admissionPopup) return;
+        admissionPopup.classList.add('show');
+        admissionPopup.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('popup-open');
+    }
+
+    function closeAdmissionPopup() {
+        if (!admissionPopup) return;
+        admissionPopup.classList.remove('show');
+        admissionPopup.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('popup-open');
+    }
+
+    admissionOpeners.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            openAdmissionPopup();
+        });
+    });
+
+    if (admissionClose) {
+        admissionClose.addEventListener('click', closeAdmissionPopup);
+    }
+
+    if (admissionPopup) {
+        admissionPopup.addEventListener('click', function (event) {
+            if (event.target === admissionPopup) {
+                closeAdmissionPopup();
+            }
+        });
+
+        setTimeout(function () {
+            if (!sessionStorage.getItem('evrenAdmissionPopupShown')) {
+                sessionStorage.setItem('evrenAdmissionPopupShown', 'true');
+                openAdmissionPopup();
+            }
+        }, 1800);
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeAdmissionPopup();
+        }
+    });
     console.log('✓ Evren Academy site initialized');
 
     // ==========================================
@@ -179,3 +228,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
