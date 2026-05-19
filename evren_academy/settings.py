@@ -26,7 +26,7 @@ except ValueError:
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='127.0.0.1,localhost,afsalmm7.pythonanywhere.com',
+    default='127.0.0.1,localhost,afsalmm7.pythonanywhere.com,.onrender.com,evrenacademy.com,www.evrenacademy.com',
     cast=Csv()
 )
 
@@ -173,7 +173,10 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Required for django-cloudinary-storage compatibility
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 # Django 6+ storage configuration
 STORAGES = {
