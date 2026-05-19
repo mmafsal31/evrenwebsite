@@ -1,14 +1,14 @@
-<header class="navbar navbar-expand-xl navbar-light bg-white sticky-top shadow-sm">
+<header class="navbar navbar-expand-xl navbar-light bg-white sticky-top shadow-sm" role="navigation" aria-label="Main navigation">
     <div class="container-fluid px-lg-4">
-        <a class="navbar-brand" href="{% url 'core:home' %}">
+        <a class="navbar-brand" href="{% url 'core:home' %}" aria-label="{{ site_settings.site_name }}">
             {% if site_settings.logo %}
-            <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" height="50">
+            <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" height="50" loading="lazy">
             {% else %}
             <strong>{{ site_settings.site_name|default:"Evren Academy" }}</strong>
             {% endif %}
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -21,7 +21,7 @@
                     <a class="nav-link" href="{% url 'core:about' %}">About Us</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'branches:list' %}" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'branches:list' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Our Campus
                     </a>
                     <ul class="dropdown-menu">
@@ -31,7 +31,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'courses:list' %}" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'courses:list' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Our Courses
                     </a>
                     <ul class="dropdown-menu">
@@ -57,7 +57,7 @@
                     <a class="nav-link" href="{% url 'contact:list' %}">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="nav-link btn btn-primary text-white ms-xl-2 px-4 js-open-admission">
+                    <button type="button" class="nav-link btn btn-primary text-white ms-xl-2 px-4 js-open-admission" aria-label="Apply Now">
                         Apply Now
                     </button>
                 </li>

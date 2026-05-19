@@ -5,71 +5,81 @@
 
 {% block content %}
 <div class="container py-5">
-    <h1 class="mb-5">Admissions</h1>
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="mb-3">Admissions</h1>
+            <p class="text-muted">Join Evren Academy and start your journey towards excellence</p>
+        </div>
+    </div>
+
     {% if messages %}
         {% for message in messages %}
         <div class="alert alert-{{ message.tags|default:'success' }} alert-dismissible fade show" role="alert">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
     {% endif %}
 
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <h2>Apply Now</h2>
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label class="form-label">Student Name</label>
-                    <input type="text" class="form-control" name="name" required>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="mb-4">Apply Now</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold">Student Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter student name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="parent_name" class="form-label fw-semibold">Parent Name</label>
+                            <input type="text" class="form-control" id="parent_name" name="parent_name" placeholder="Enter parent name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Your phone number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="course" class="form-label fw-semibold">Course of Interest <span class="text-danger">*</span></label>
+                            <select class="form-select" id="course" name="course" required>
+                                <option value="">Select course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.name }}">{{ course.name }}</option>
+                                {% empty %}
+                                <option value="ICSE">ICSE</option>
+                                <option value="IPS">IPS</option>
+                                <option value="IAS">IAS</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="campus" class="form-label fw-semibold">Campus Preference</label>
+                            <select class="form-select" id="campus" name="campus_preference">
+                                <option value="">Select campus</option>
+                                {% for campus in campuses %}
+                                <option value="{{ campus.name }}">{{ campus.name }}</option>
+                                {% empty %}
+                                <option value="Boys Campus">Boys Campus</option>
+                                <option value="Girls Campus">Girls Campus</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-semibold">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tell us about yourself or any questions you have..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit Application</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Parent Name</label>
-                    <input type="text" class="form-control" name="parent_name">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Phone</label>
-                    <input type="tel" class="form-control" name="phone" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Course of Interest</label>
-                    <select class="form-control" name="course">
-                        <option value="">Select course</option>
-                        {% for course in courses %}
-                        <option value="{{ course.name }}">{{ course.name }}</option>
-                        {% empty %}
-                        <option value="ICSE">ICSE</option>
-                        <option value="IPS">IPS</option>
-                        <option value="IAS">IAS</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Campus Preference</label>
-                    <select class="form-control" name="campus_preference">
-                        <option value="">Select campus</option>
-                        {% for campus in campuses %}
-                        <option value="{{ campus.name }}">{{ campus.name }}</option>
-                        {% empty %}
-                        <option value="Boys Campus">Boys Campus</option>
-                        <option value="Girls Campus">Girls Campus</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Message</label>
-                    <textarea class="form-control" name="message" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Application</button>
-            </form>
+            </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-lg-6">
             <h2>Admission Information</h2>
             {% if institution_profile.admission_overview %}
                 {{ institution_profile.admission_overview|safe }}

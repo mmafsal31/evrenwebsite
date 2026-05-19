@@ -1,44 +1,44 @@
 
-<footer class="bg-dark text-white py-5">
+<footer class="bg-dark text-white py-5" role="contentinfo">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <h5>About {{ site_settings.site_name }}</h5>
-                <p>{{ site_settings.footer_about|default:"Premium educational institution dedicated to excellence in education." }}</p>
-                <div class="social-links">
-                    {% if site_settings.facebook %}<a href="{{ site_settings.facebook }}" target="_blank" class="text-white me-2"><i class="fab fa-facebook"></i></a>{% endif %}
-                    {% if site_settings.twitter %}<a href="{{ site_settings.twitter }}" target="_blank" class="text-white me-2"><i class="fab fa-twitter"></i></a>{% endif %}
-                    {% if site_settings.instagram %}<a href="{{ site_settings.instagram }}" target="_blank" class="text-white me-2"><i class="fab fa-instagram"></i></a>{% endif %}
-                    {% if site_settings.linkedin %}<a href="{{ site_settings.linkedin }}" target="_blank" class="text-white me-2"><i class="fab fa-linkedin"></i></a>{% endif %}
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="mb-3">About {{ site_settings.site_name }}</h5>
+                <p class="small">{{ site_settings.footer_about|default:"Premium educational institution dedicated to excellence in education." }}</p>
+                <div class="social-links mt-3">
+                    {% if site_settings.facebook %}<a href="{{ site_settings.facebook }}" target="_blank" rel="noopener" class="text-white me-3" title="Facebook" aria-label="Follow us on Facebook"><i class="fab fa-facebook fa-lg"></i></a>{% endif %}
+                    {% if site_settings.twitter %}<a href="{{ site_settings.twitter }}" target="_blank" rel="noopener" class="text-white me-3" title="Twitter" aria-label="Follow us on Twitter"><i class="fab fa-twitter fa-lg"></i></a>{% endif %}
+                    {% if site_settings.instagram %}<a href="{{ site_settings.instagram }}" target="_blank" rel="noopener" class="text-white me-3" title="Instagram" aria-label="Follow us on Instagram"><i class="fab fa-instagram fa-lg"></i></a>{% endif %}
+                    {% if site_settings.linkedin %}<a href="{{ site_settings.linkedin }}" target="_blank" rel="noopener" class="text-white" title="LinkedIn" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>{% endif %}
                 </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-                <h5>Quick Links</h5>
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="mb-3">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="{% url 'courses:list' %}" class="text-white-50">Courses</a></li>
-                    <li><a href="{% url 'branches:list' %}" class="text-white-50">Branches</a></li>
-                    <li><a href="{% url 'admissions:list' %}" class="text-white-50">Admissions</a></li>
-                    <li><a href="{% url 'careers:list' %}" class="text-white-50">Careers</a></li>
+                    <li class="mb-2"><a href="{% url 'courses:list' %}" class="text-white-50 text-decoration-none">Courses</a></li>
+                    <li class="mb-2"><a href="{% url 'branches:list' %}" class="text-white-50 text-decoration-none">Branches</a></li>
+                    <li class="mb-2"><a href="{% url 'admissions:list' %}" class="text-white-50 text-decoration-none">Admissions</a></li>
+                    <li class="mb-2"><a href="{% url 'careers:list' %}" class="text-white-50 text-decoration-none">Careers</a></li>
                 </ul>
             </div>
 
-            <div class="col-md-4 mb-4">
-                <h5>Contact Us</h5>
-                <p class="mb-2">
-                    <i class="fas fa-phone"></i> <a href="{{ site_settings.tel_url }}" class="text-white-50">{{ site_settings.phone }}</a>
+            <div class="col-lg-4 col-md-12">
+                <h5 class="mb-3">Contact Us</h5>
+                <p class="mb-2 small">
+                    <i class="fas fa-phone me-2"></i> <a href="{{ site_settings.tel_url }}" class="text-white-50 text-decoration-none">{{ site_settings.phone }}</a>
                 </p>
-                <p class="mb-2">
-                    <i class="fas fa-envelope"></i> <a href="mailto:{{ site_settings.email }}" class="text-white-50">{{ site_settings.email }}</a>
+                <p class="mb-2 small">
+                    <i class="fas fa-envelope me-2"></i> <a href="mailto:{{ site_settings.email }}" class="text-white-50 text-decoration-none">{{ site_settings.email }}</a>
                 </p>
-                <p class="mb-2">
-                    <i class="fas fa-map-marker-alt"></i> {{ site_settings.address|truncatewords:5 }}
+                <p class="mb-0 small">
+                    <i class="fas fa-map-marker-alt me-2"></i> {{ site_settings.address|truncatewords:5 }}
                 </p>
             </div>
         </div>
 
-        <hr class="bg-white-50">
-        <div class="text-center text-white-50">
+        <hr class="bg-white-50 my-4">
+        <div class="text-center text-white-50 small">
             <p class="mb-0">{{ site_settings.copyright }}</p>
         </div>
     </div>
